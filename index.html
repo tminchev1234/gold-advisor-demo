@@ -104,9 +104,10 @@
   .mt-head,.mt-row{display:grid;grid-template-columns:1.5fr .8fr .8fr .8fr 2.1fr 1fr;align-items:center;gap:10px;padding:13px 18px;min-width:640px}
   .mt-head{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--line)}
   .mt-head>div{text-align:right}.mt-head .mt-h-name{text-align:left}.mt-head .mt-h-range{text-align:center}
-  .mt-row{border-bottom:1px solid rgba(255,255,255,.04)}
+  .mt-row{border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
   .mt-row:last-child{border-bottom:none}
-  .mt-row:hover{background:rgba(255,255,255,.02)}
+  .mt-row:hover{background:rgba(255,255,255,.035)}
+  .mt-hint{font-size:10px;color:var(--gold2);opacity:.8}
   .mt-name{display:flex;flex-direction:column;line-height:1.3}
   .mt-name b{font-size:14.5px;font-weight:600}
   .mt-name span{font-size:11px;color:var(--muted)}
@@ -120,6 +121,27 @@
   .mt-foot{font-size:10.5px;color:#6c727d;padding:11px 18px;border-top:1px solid rgba(255,255,255,.04)}
   .mt-loading{padding:26px 18px;color:#6c727d;font-size:13px}
   @media(max-width:560px){.mt-name span{display:none}}
+  /* metal detail modal */
+  .mm-overlay{position:fixed;inset:0;z-index:100000;background:rgba(5,7,10,.74);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px}
+  .mm-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;max-width:540px;width:100%;max-height:88vh;overflow-y:auto;padding:24px 26px;position:relative;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+  .mm-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:21px;cursor:pointer;padding:4px;line-height:1}
+  .mm-close:hover{color:var(--text)}
+  .mm-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .mm-ic{width:48px;height:48px;border-radius:12px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-size:25px;flex-shrink:0}
+  .mm-title{font-size:22px;font-weight:600}
+  .mm-sym{font-size:13px;color:var(--muted)}
+  .mm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mm-stat{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  .mm-stat span{font-size:11px;color:var(--muted);display:block;margin-bottom:5px}
+  .mm-stat b{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+  .mm-wide{grid-column:1/-1}
+  .mm-section{margin-top:22px}
+  .mm-sec-h{font-size:12px;color:var(--gold2);letter-spacing:.4px;margin-bottom:13px}
+  .mm-bars{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;align-items:end}
+  .mm-empty{grid-column:1/-1;color:#6c727d;font-size:13px;padding:6px 0}
+  .mm-cta{margin-top:22px}
+  .mm-disc{font-size:10.5px;color:#6c727d;margin-top:14px}
+  @media(max-width:560px){.mm-stats{grid-template-columns:repeat(2,1fr)}.mm-card{padding:20px 18px}}
   /* trending strip */
   .trending{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
   .trending .tr-label{font-size:13px;color:var(--gold2);font-weight:500;white-space:nowrap}
@@ -383,6 +405,23 @@
     <div class="gterm" onclick="window.alexAsk&&window.alexAsk('Обясни ми просто какво е чистота 999.9 при златото и защо има значение.')"><div class="t">Чистота 999.9</div><div class="d">проба на метала</div></div>
   </div>
 
+  <div id="metal-modal" class="mm-overlay" style="display:none">
+    <div class="mm-card">
+      <button class="mm-close" id="mm-close" aria-label="Затвори">✕</button>
+      <div class="mm-head">
+        <div class="mm-ic" id="mm-ic">🥇</div>
+        <div><div class="mm-title" id="mm-title">—</div><div class="mm-sym" id="mm-sym">—</div></div>
+      </div>
+      <div class="mm-stats" id="mm-stats"></div>
+      <div class="mm-section">
+        <div class="mm-sec-h">📅 Сезонност · 10-годишна история по месеци</div>
+        <div class="mm-bars" id="mm-bars"><div class="mm-empty">…</div></div>
+      </div>
+      <div class="mm-cta"><button class="btn" id="mm-ask">💬 Питай Алекс за този метал →</button></div>
+      <div class="mm-disc">Реални данни от платформата · ETF прокси. Само информативно, не е инвестиционен съвет.</div>
+    </div>
+  </div>
+
   <footer id="macro">
     <div>Изградено като демонстрация на модерна образователна платформа за инвеститори в злато.</div>
     <div style="margin-top:8px">Powered by <span class="pw">Alex Cognitive Architecture</span></div>
@@ -492,15 +531,22 @@
     load('GLD');
   })();
 
-  // ---- metals at-a-glance performance table (live from the platform) ----
+  // ---- metals at-a-glance performance table + per-metal detail modal ----
   (function(){
     var ROWS=document.getElementById('mt-rows'); if(!ROWS) return;
+    var MN={1:'Янв',2:'Фев',3:'Мар',4:'Апр',5:'Май',6:'Юни',7:'Юли',8:'Авг',9:'Сеп',10:'Окт',11:'Ное',12:'Дек'};
+    var META={
+      gold:{ic:'🥇',stk:'GLD',name:'златото'}, silver:{ic:'🥈',stk:'SLV',name:'среброто'},
+      platinum:{ic:'⚪',stk:null,name:'платината'}, palladium:{ic:'⚫',stk:null,name:'паладия'}
+    };
+    var DATA=null;
     function cell(v){
       if(v===null||v===undefined||isNaN(v)) return '<div class="mt-val mt-mut">—</div>';
       var cls=v>0?'mt-up':(v<0?'mt-down':'mt-mut');
       return '<div class="mt-val '+cls+'">'+(v>0?'+':'')+v.toFixed(1)+'%</div>';
     }
     function render(d){
+      DATA=d;
       var metals=(d&&d.metals)||[];
       var ok=metals.filter(function(m){return typeof m.r1y==='number';});
       if(!ok.length){ ROWS.innerHTML='<div class="mt-loading">Данните за металите не са налични в момента.</div>'; return; }
@@ -509,8 +555,8 @@
         if(typeof m.r1y!=='number'){ return; }
         var pos=Math.max(2,Math.min(98,m.pos52));
         var fh=(typeof m.from_high==='number')?m.from_high:null;
-        html+='<div class="mt-row">'
-          +'<div class="mt-name"><b>'+m.name+'</b><span>'+m.symbol+'</span></div>'
+        html+='<div class="mt-row" data-key="'+m.key+'">'
+          +'<div class="mt-name"><b>'+m.name+'</b><span class="mt-hint">детайли ›</span></div>'
           +cell(m.r1m)+cell(m.r3m)+cell(m.r1y)
           +'<div class="mt-range-cell"><div class="mt-track"><div class="mt-dot" style="left:'+pos+'%"></div></div>'
             +'<div class="mt-ends"><span>52с. дъно</span><span>52с. връх</span></div></div>'
@@ -518,8 +564,56 @@
           +'</div>';
       });
       ROWS.innerHTML=html;
+      Array.prototype.forEach.call(ROWS.querySelectorAll('.mt-row'),function(r){ r.onclick=function(){ openModal(r.getAttribute('data-key')); }; });
       if(d.asof) document.getElementById('mt-asof').textContent='Към '+d.asof;
     }
+
+    function seasonBars(monthly,cur){
+      if(!monthly||!monthly.length) return '<div class="mm-empty">Сезонните данни не са налични за този метал.</div>';
+      var maxAbs=Math.max.apply(null,monthly.map(function(m){return Math.abs(m.avg_return||0);}))||1;
+      var h='';
+      monthly.forEach(function(m){
+        var v=m.avg_return||0, ht=Math.min(100,Math.abs(v)/maxAbs*100), up=v>=0, isCur=m.period===cur;
+        h+='<div class="season-bar'+(isCur?' cur':'')+'" title="'+MN[m.period]+': '+(v>0?'+':'')+v.toFixed(1)+'%">'
+          +'<div class="cell"><div class="pos">'+(up?'<div class="col up" style="height:'+ht+'%"></div>':'')+'</div>'
+          +'<div class="neg">'+(!up?'<div class="col down" style="height:'+ht+'%"></div>':'')+'</div></div>'
+          +'<div class="mlab">'+MN[m.period]+'</div></div>';
+      });
+      return h;
+    }
+    function stat(label,v){
+      var has=(typeof v==='number'), cls=has?(v>0?'mt-up':(v<0?'mt-down':'mt-mut')):'mt-mut';
+      return '<div class="mm-stat"><span>'+label+'</span><b class="'+cls+'">'+(has?(v>0?'+':'')+v.toFixed(1)+'%':'—')+'</b></div>';
+    }
+    function openModal(key){
+      if(!DATA) return;
+      var m=(DATA.metals||[]).filter(function(x){return x.key===key;})[0]; if(!m) return;
+      var meta=META[key]||{ic:'•',stk:null,name:m.name};
+      document.getElementById('mm-ic').textContent=meta.ic;
+      document.getElementById('mm-title').textContent=m.name;
+      document.getElementById('mm-sym').textContent=m.symbol;
+      var pos=Math.max(2,Math.min(98,(typeof m.pos52==='number')?m.pos52:50));
+      document.getElementById('mm-stats').innerHTML=
+        stat('1 месец',m.r1m)+stat('3 месеца',m.r3m)+stat('1 година',m.r1y)
+        +'<div class="mm-stat mm-wide"><span>Позиция в 52-седмичния диапазон</span><div class="mt-track" style="margin-top:9px"><div class="mt-dot" style="left:'+pos+'%"></div></div><div class="mt-ends"><span>52с. дъно</span><span>52с. връх</span></div></div>'
+        +stat('Отстояние от върха',m.from_high);
+      var BARS=document.getElementById('mm-bars');
+      if(meta.stk){
+        BARS.innerHTML='<div class="mm-empty">Зарежда сезонността…</div>';
+        fetch('https://alex-finance.onrender.com/api/seasonality/ticker/'+meta.stk)
+          .then(function(r){return r.json();}).then(function(sd){ BARS.innerHTML=seasonBars(sd&&sd.monthly, sd&&sd.current_month); })
+          .catch(function(){ BARS.innerHTML='<div class="mm-empty">Сезонните данни не са налични в момента.</div>'; });
+      } else {
+        BARS.innerHTML='<div class="mm-empty">Сезонните данни за този метал още не са в скенера. Попитай Алекс за повече.</div>';
+      }
+      document.getElementById('mm-ask').onclick=function(){ closeModal(); if(window.alexAsk) window.alexAsk('Разкажи ми повече за '+meta.name+' като инвестиция — какво движи цената, какви са перспективите и основните рискове. Обясни ми простичко, без да ме съветваш какво да правя.'); };
+      document.getElementById('metal-modal').style.display='flex';
+    }
+    function closeModal(){ document.getElementById('metal-modal').style.display='none'; }
+    document.getElementById('mm-close').onclick=closeModal;
+    document.getElementById('metal-modal').onclick=function(e){ if(e.target.id==='metal-modal') closeModal(); };
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+
     fetch('https://alex-finance.onrender.com/api/metals/performance')
       .then(function(r){return r.json();}).then(render)
       .catch(function(){ ROWS.innerHTML='<div class="mt-loading">Данните за металите не са налични в момента.</div>'; });

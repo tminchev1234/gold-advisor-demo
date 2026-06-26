@@ -52,6 +52,8 @@
     var t = document.getElementById('alex-toggle');
     p.style.display = open ? 'flex' : 'none';
     t.style.transform = open ? 'scale(.9)' : 'none';
+    // remember the visitor's choice: once they close it, don't auto-open on later page loads
+    try { localStorage.setItem('ga_alex_dismissed', open ? '0' : '1'); } catch (e) {}
     if (open) setTimeout(function () { document.getElementById('alex-input').focus(); }, 60);
   }
   window.alexToggle = toggle;
@@ -142,7 +144,9 @@
       c.onclick = function () { document.getElementById('alex-input').value = q; send(); };
       cb.appendChild(c);
     });
-    // open by default (desktop only, so it doesn't cover the whole mobile screen)
-    if (window.innerWidth >= 720) toggle();
+    // open by default on desktop — but only if the visitor hasn't closed it before
+    var dismissed = false;
+    try { dismissed = localStorage.getItem('ga_alex_dismissed') === '1'; } catch (e) {}
+    if (window.innerWidth >= 720 && !dismissed) toggle();
   }
 })();
