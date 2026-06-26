@@ -138,5 +138,7 @@
       c.onclick = function () { document.getElementById('alex-input').value = q; send(); };
       cb.appendChild(c);
     });
+    // open by default (desktop only, so it doesn't cover the whole mobile screen)
+    if (window.innerWidth >= 720) toggle();
   }
 })();

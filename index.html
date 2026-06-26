@@ -54,6 +54,9 @@
   .bprice .chg{color:var(--up);font-size:13.5px;font-weight:500}
   .bprice .dvs{border-top:1px solid var(--line);margin-top:14px;padding-top:13px}
   .bprice .drv{font-size:13px;margin:6px 0;color:#cdd2da}
+  .bp-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+  .bp-tabs button{font-size:11.5px;color:#cdd2da;background:var(--panel2);border:1px solid var(--line);padding:5px 10px;border-radius:8px;cursor:pointer}
+  .bp-tabs button.on{color:#1a1408;background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:transparent}
   .bdiv{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:22px 0}
   .bai{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
   .bai .txt{flex:1;min-width:250px}
@@ -171,9 +174,15 @@
         <a class="rm" href="articles/zlato-4000-kalkulirano.html">Прочети целия обзор →</a>
       </div>
       <div class="bprice">
-        <div class="sym">Злато · XAU/USD · демо</div>
-        <div class="px">$4 002<span style="font-size:18px;color:var(--muted)">.30</span></div>
-        <div class="chg">▲ +0.7% · +$27.40 днес</div>
+        <div class="bp-tabs">
+          <button data-m="gold" class="on">Злато</button>
+          <button data-m="silver">Сребро</button>
+          <button data-m="platinum">Платина</button>
+          <button data-m="palladium">Паладий</button>
+        </div>
+        <div class="sym" id="bp-sym">Злато · XAU/USD · демо</div>
+        <div class="px" id="bp-px">$4 002.30</div>
+        <div class="chg" id="bp-chg" style="color:var(--up)">▲ +0.7% · +$27.40 днес</div>
         <div class="dvs">
           <div class="drv"><span style="color:var(--up)">✓</span> Доларът отслабва (DXY −0.4%)</div>
           <div class="drv"><span style="color:var(--up)">✓</span> По-ниски реални доходности</div>
@@ -187,7 +196,7 @@
         <span class="abadge">● Мнение на AI · обяснява, не съветва</span>
         <p>Движението днес е в съгласие с по-слабия долар и по-ниските реални доходности. Ключовият риск е утрешното решение на Фед — ястребова изненада би върнала натиска върху метала. Питай ме защо, ако искаш да го разнищим.</p>
       </div>
-      <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Обясни ми това →</button>
+      <button class="btn" onclick="window.alexAsk&&window.alexAsk('Обясни ми с прости думи защо златото се движи така днес — по-слаб долар, по-ниски реални доходности и решението на Фед утре. Какво да следя оттук нататък?')">Обясни ми това →</button>
     </div>
   </div>
 
@@ -212,10 +221,12 @@
     <div class="bc-canvas"><canvas id="metalChart" role="img" aria-label="Интерактивна графика на цените на злато, сребро, платина и паладий с превключване на метала и периода."></canvas></div>
   </div>
 
+  <button class="btn" onclick="window.alexAsk&&window.alexAsk('Кой благороден метал — злато, сребро, платина или паладий — изглежда най-интересен в момента и защо? Обясни ми простичко, с примери.')" style="margin-top:14px">💬 Попитай Алекс за металите →</button>
+
   <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Пет места да разбереш златото — не само да го купиш.</p></div>
   <div class="cards">
     <div class="card"><div class="ic">📰</div><h3>Новини за златото</h3><p>Дневните движения на активите, които движат златото.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Сребро</span><span class="tag">Фед</span><span class="tag">ЕЦБ</span><span class="tag">Инфлация</span><span class="tag">Долар</span></div></div>
-    <div class="card" style="border-color:rgba(217,178,90,.4)"><div class="ic">🤖</div><h3>Злато AI — твоят спътник</h3><p>Задава въпроси, дава разбиране. Обяснява, никога не съветва.</p><div class="tags"><span class="tag">Да купя ли злато?</span><span class="tag">Злато или сребро?</span><span class="tag">Помни те</span></div></div>
+    <div class="card" onclick="window.alexToggle&&window.alexToggle()" style="border-color:rgba(217,178,90,.4);cursor:pointer"><div class="ic">🤖</div><h3>Злато AI — твоят спътник</h3><p>Задава въпроси, дава разбиране. Обяснява, никога не съветва.</p><div class="tags"><span class="tag">Да купя ли злато?</span><span class="tag">Злато или сребро?</span><span class="tag">Помни те</span></div></div>
     <div class="card"><div class="ic">📈</div><h3>Графики на златото</h3><p>Злато, сребро, доларът, реалните лихви и BTC на едно място.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Реални лихви</span><span class="tag">Фед</span><span class="tag">BTC</span></div></div>
     <div class="card"><div class="ic">🎓</div><h3>Център за обучение</h3><p>Структурирани уроци: злато, инфлация, диверсификация, основите.</p><div class="tags"><span class="tag">15 урока</span><span class="tag">Начинаещ → уверен</span></div></div>
     <div class="card"><div class="ic">🌅</div><h3>Ежедневен макро</h3><p>Един ясен прочит на световната икономика, всяка сутрин.</p><div class="tags"><span class="tag">3 минути</span><span class="tag">Без жаргон</span></div></div>
@@ -297,6 +308,22 @@
   document.querySelectorAll('.bc-metals button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.bc-metals button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curMetal=b.dataset.m;render();});
   document.querySelectorAll('.bc-ranges button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.bc-ranges button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curRange=+b.dataset.r;render();});
   render();
+
+  // ---- daily-brief metal price switcher ----
+  var BP={
+    gold:{sym:'Злато · XAU/USD · демо',px:'$4 002.30',chg:'▲ +0.7% · +$27.40 днес',up:true},
+    silver:{sym:'Сребро · XAG/USD · демо',px:'$56.40',chg:'▲ +1.4% · +$0.78 днес',up:true},
+    platinum:{sym:'Платина · XPT/USD · демо',px:'$1 185.00',chg:'▼ −0.3% · −$3.40 днес',up:false},
+    palladium:{sym:'Паладий · XPD/USD · демо',px:'$1 072.00',chg:'▲ +0.9% · +$9.20 днес',up:true}
+  };
+  document.querySelectorAll('.bp-tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.bp-tabs button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    var d=BP[b.dataset.m];
+    document.getElementById('bp-sym').textContent=d.sym;
+    document.getElementById('bp-px').textContent=d.px;
+    var c=document.getElementById('bp-chg');c.textContent=d.chg;c.style.color=d.up?'#4ec88a':'#e24b4a';
+  };});
 </script>
 <script src="assets/alex-widget.js"></script>
 </body>
