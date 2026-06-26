@@ -67,6 +67,22 @@
     return t.replace(/\n{3,}/g, '\n\n').trim();
   }
 
+  var PLATFORM = 'https://alex-finance.onrender.com';
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  // Render Alex's markdown links as real, clickable links. Root-relative paths
+  // (e.g. /academy/l4/m6) point at the platform, so academy lessons actually open.
+  function linkify(text) {
+    var s = escapeHtml(text);
+    s = s.replace(/\[([^\]]+)\]\((\/[^)\s]+|https?:\/\/[^)\s]+)\)/g, function (m, label, url) {
+      var abs = url.charAt(0) === '/' ? (PLATFORM + url) : url;
+      if (!/^https?:\/\//.test(abs)) return label;
+      return '<a href="' + abs + '" target="_blank" rel="noopener" style="color:#e7cd8a;text-decoration:underline;font-weight:600">' + label + '</a>';
+    });
+    return s;
+  }
+
   function bubble(role, text) {
     var feed = document.getElementById('alex-feed');
     var d = document.createElement('div');
@@ -122,7 +138,7 @@
       }
       var reply = clean(full);
       history.push({ role: 'assistant', content: reply });
-      el.textContent = reply || '(няма отговор — опитай пак)';
+      if (reply) { el.innerHTML = linkify(reply); } else { el.textContent = '(няма отговор — опитай пак)'; }
     } catch (e) {
       clearTimeout(slow);
       el.textContent = 'Грешка във връзката — опитай пак.';
