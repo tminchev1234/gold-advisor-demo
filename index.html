@@ -141,7 +141,7 @@
 
   <div class="top">
     <div class="brand"><span class="dot">G</span> GOLD ADVISOR</div>
-    <div class="nav"><a href="blog.html">Анализи</a><a href="#ai">Злато AI</a><a href="#charts">Графики</a><a href="#news">Обучение</a><a href="#macro">Макро</a></div>
+    <div class="nav"><a href="blog.html">Анализи</a><a href="#charts">Графики</a><a href="#" onclick="window.alexToggle&&window.alexToggle();return false">Alex AI</a><a href="https://igold.bg/" target="_blank" rel="noopener">Магазин</a><a href="#macro">Контакти</a></div>
     <div class="powered">Powered by <b>Alex Cognitive Architecture</b></div>
   </div>
 
@@ -223,29 +223,15 @@
 
   <button class="btn" onclick="window.alexAsk&&window.alexAsk('Кой благороден метал — злато, сребро, платина или паладий — изглежда най-интересен в момента и защо? Обясни ми простичко, с примери.')" style="margin-top:14px">💬 Попитай Алекс за металите →</button>
 
-  <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Пет места да разбереш златото — не само да го купиш.</p></div>
+  <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Платформата плюс продуктите и офертите на iGold — на едно място.</p></div>
   <div class="cards">
-    <div class="card"><div class="ic">📰</div><h3>Новини за златото</h3><p>Дневните движения на активите, които движат златото.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Сребро</span><span class="tag">Фед</span><span class="tag">ЕЦБ</span><span class="tag">Инфлация</span><span class="tag">Долар</span></div></div>
-    <div class="card" onclick="window.alexToggle&&window.alexToggle()" style="border-color:rgba(217,178,90,.4);cursor:pointer"><div class="ic">🤖</div><h3>Злато AI — твоят спътник</h3><p>Задава въпроси, дава разбиране. Обяснява, никога не съветва.</p><div class="tags"><span class="tag">Да купя ли злато?</span><span class="tag">Злато или сребро?</span><span class="tag">Помни те</span></div></div>
-    <div class="card"><div class="ic">📈</div><h3>Графики на златото</h3><p>Злато, сребро, доларът, реалните лихви и BTC на едно място.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Реални лихви</span><span class="tag">Фед</span><span class="tag">BTC</span></div></div>
-    <div class="card"><div class="ic">🎓</div><h3>Център за обучение</h3><p>Структурирани уроци: злато, инфлация, диверсификация, основите.</p><div class="tags"><span class="tag">15 урока</span><span class="tag">Начинаещ → уверен</span></div></div>
-    <div class="card"><div class="ic">🌅</div><h3>Ежедневен макро</h3><p>Един ясен прочит на световната икономика, всяка сутрин.</p><div class="tags"><span class="tag">3 минути</span><span class="tag">Без жаргон</span></div></div>
+    <a class="card" href="https://igold.bg/zlatni-kyulcheta-investitsionni" target="_blank" rel="noopener" style="display:block"><div class="ic">🥇</div><h3>Нашият топ продукт</h3><p>Инвестиционни кюлчета и монети от Valcambi, Argor-Heraeus и PAMP Suisse — от 1 г до 1 oz.</p><div class="tags"><span class="tag">Най-продавано</span><span class="tag">0% ДДС</span><span class="tag">1 г – 1 oz</span></div></a>
+    <a class="card" href="https://igold.bg/promotzii" target="_blank" rel="noopener" style="display:block;border-color:rgba(217,178,90,.45)"><div class="ic">🏷️</div><h3>Бием всяка цена</h3><p>Видите ли цена по-ниска от нашата — обадете се. Гарантирано я бием. Плюс лимитирани серии.</p><div class="tags"><span class="tag">Гарантирано</span><span class="tag">Промоции</span></div></a>
+    <a class="card" href="https://igold.bg/zavas" target="_blank" rel="noopener" style="display:block"><div class="ic">🛡️</div><h3>Защо от нас</h3><p>Лицензиран дилър. Актуални цени на всеки 5 минути. Безплатна доставка и застраховка над 500 лв.</p><div class="tags"><span class="tag">Лиценз МИ</span><span class="tag">Bloomberg · BNT</span></div></a>
+    <div class="card" onclick="window.alexToggle&&window.alexToggle()" style="border-color:rgba(217,178,90,.45);cursor:pointer"><div class="ic">🤖</div><h3>Alex — твоят спътник</h3><p>Питай за злато, сребро, платина, паладий. Обяснява, никога не съветва.</p><div class="tags"><span class="tag">24/7</span><span class="tag">Помни те</span><span class="tag">Реален AI</span></div></div>
+    <a class="card" href="#charts" style="display:block"><div class="ic">📈</div><h3>Графики на металите</h3><p>Злато, сребро, платина и паладий — интерактивни графики на едно място.</p><div class="tags"><span class="tag">4 метала</span><span class="tag">1М · 3М · 1Г</span></div></a>
+    <a class="card" href="blog.html" style="display:block"><div class="ic">📰</div><h3>Анализи и обучение</h3><p>Задълбочени анализи, дневен обзор и уроци за инвеститори в благородни метали.</p><div class="tags"><span class="tag">Анализи</span><span class="tag">Дневен обзор</span><span class="tag">Уроци</span></div></a>
   </div>
-
-  <div class="sechead" id="ai"><h2>Твоят златен спътник</h2><p>Обяснява пазара и помни въпросите ти — като знаещ приятел, на разположение 24/7.</p></div>
-  <div class="chat">
-    <div class="head">
-      <div class="who"><span class="dot" style="width:24px;height:24px;font-size:13px">G</span> Gold Advisor AI</div>
-      <div class="badge">● Обяснява · не съветва</div>
-    </div>
-    <div class="stream" id="stream">
-      <div class="memory">🕮 Миналия вторник ме попита за златото при <b>$3 860</b>. Сега е <b>+4.8%</b>. Искаш ли да видим какво се промени във фундаментите?</div>
-      <div class="msg a"><div class="lbl">Gold Advisor AI</div>Добро утро. Златото е +0.7% днес заради по-слабия долар и по-ниските реални доходности. Питай ме каквото искаш — ще обясня, няма да ти казвам какво да правиш.</div>
-    </div>
-    <div class="chips" id="chips"></div>
-    <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; асистентът обучава и обяснява. Не дава персонализирани инвестиционни съвети — заложено на ниво архитектура, не чрез disclaimer.</div>
-  </div>
-  <button class="btn" style="margin-top:14px" onclick="window.alexToggle&&window.alexToggle()">💬 Опитай Alex на живо (реален AI) →</button>
 
   <footer id="macro">
     <div>Изградено като демонстрация на модерна образователна платформа за инвеститори в злато.</div>
@@ -274,8 +260,9 @@
     add('u',q);
     setTimeout(()=>add('a',QA[q]||"Чудесен въпрос — в пълната версия бих отговорил от собствената библиотека статии на iGold, така че всеки отговор остава на марката и в посланието.","Gold Advisor AI"),350);
   }
+  // legacy inline chat removed — the Alex floating widget replaces it
   const chipBox=document.getElementById('chips');
-  chips.forEach(q=>{const c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=()=>ask(q);chipBox.appendChild(c);});
+  if(chipBox){ chips.forEach(q=>{const c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=()=>ask(q);chipBox.appendChild(c);}); }
 
   // ---- interactive metals chart ----
   const METALS={
