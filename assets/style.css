@@ -79,3 +79,15 @@ a{color:inherit;text-decoration:none}
 footer{margin-top:46px;border-top:1px solid var(--line);padding:26px 0 50px;color:var(--muted);font-size:13px}
 footer .pw{color:var(--gold2)}
 .disc{font-size:11.5px;color:#6c727d;margin-top:10px;max-width:82ch}
+/* iGold offers under articles */
+.offers-wrap{margin:36px 0 6px;border-top:1px solid var(--line);padding-top:24px}
+.offers-wrap .oh{font-size:12px;color:var(--gold2);letter-spacing:.5px;margin-bottom:14px}
+.offers-wrap .oh b{font-weight:600}
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:680px){.offers{grid-template-columns:1fr}}
+.offer{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;transition:border-color .15s}
+.offer:hover{border-color:var(--gold)}
+.offer .oic{font-size:22px;margin-bottom:9px}
+.offer h4{font-size:15px;font-weight:600;margin-bottom:5px}
+.offer p{font-size:13px;color:var(--muted);line-height:1.5}
+.offer .otag{font-size:12px;color:var(--gold2);margin-top:11px;display:inline-block}
