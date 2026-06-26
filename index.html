@@ -234,6 +234,7 @@
     <div class="chips" id="chips"></div>
     <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; асистентът обучава и обяснява. Не дава персонализирани инвестиционни съвети — заложено на ниво архитектура, не чрез disclaimer.</div>
   </div>
+  <button class="btn" style="margin-top:14px" onclick="window.alexToggle&&window.alexToggle()">💬 Опитай Alex на живо (реален AI) →</button>
 
   <footer id="macro">
     <div>Изградено като демонстрация на модерна образователна платформа за инвеститори в злато.</div>
@@ -297,5 +298,6 @@
   document.querySelectorAll('.bc-ranges button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.bc-ranges button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curRange=+b.dataset.r;render();});
   render();
 </script>
+<script src="assets/alex-widget.js"></script>
 </body>
 </html>
