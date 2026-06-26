@@ -53,6 +53,24 @@
   .card p{font-size:13.5px;color:var(--muted)}
   .card .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
   .tag{font-size:11.5px;color:var(--gold2);background:rgba(217,178,90,.1);border:1px solid rgba(217,178,90,.22);padding:3px 9px;border-radius:14px}
+  /* latest analysis */
+  .latest{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:stretch}
+  @media(max-width:760px){.latest{grid-template-columns:1fr}}
+  .feat{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s}
+  .feat:hover{border-color:#3a4150}
+  .feat .fcover{height:168px;background:linear-gradient(135deg,#1d2230,#13161d);display:flex;align-items:center;justify-content:center;font-size:46px}
+  .feat .fbody{padding:17px 20px 19px}
+  .feat .kk{font-size:11.5px;color:var(--gold2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+  .feat h3{font-size:20px;font-weight:600;line-height:1.3;margin-bottom:8px}
+  .feat p{font-size:14px;color:var(--muted)}
+  .feat .mm{font-size:12px;color:#6c727d;margin-top:13px}
+  .more{display:flex;flex-direction:column;gap:12px}
+  .mini{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .mini .kk{font-size:10.5px;color:var(--gold2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+  .mini h4{font-size:14px;font-weight:600;line-height:1.35}
+  .mini .mm{font-size:11.5px;color:#6c727d;margin-top:7px}
+  .mini.soon{opacity:.6}
+  .alllink{display:inline-block;margin-top:16px;font-size:14px;color:var(--gold2)}
   /* chat */
   .chat{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:6px}
   .chat .head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line);background:var(--panel2)}
@@ -118,10 +136,28 @@
     </div>
   </div>
 
-  <div class="sechead" id="news"><h2>What you can explore</h2><p>Six places to understand gold — not just buy it.</p></div>
+  <div class="sechead" id="analysis"><h2>Latest analysis</h2><p>Аналитично качество, написано за да се разбира — не просто да се чете.</p></div>
+  <div class="latest">
+    <a class="feat" href="articles/zlato-voina-lihvi.html">
+      <div class="fcover">⚔️</div>
+      <div class="fbody">
+        <div class="kk">Злато · Макро</div>
+        <h3>Защо златото падна по време на война?</h3>
+        <p>Когато цената на парите се оказва по-важна от страха — защо металът поевтинява именно когато светът изглежда по-несигурен.</p>
+        <div class="mm">Теодор Минчев · 23 юни 2026 · 9 мин</div>
+      </div>
+    </a>
+    <div class="more">
+      <div class="mini soon"><div class="kk">Злато</div><h4>Злато срещу биткойн: два залога срещу една и съща тревога</h4><div class="mm">Очаквайте скоро</div></div>
+      <div class="mini soon"><div class="kk">Макро</div><h4>Реалните лихви: единственото число, което движи златото</h4><div class="mm">Очаквайте скоро</div></div>
+      <div class="mini soon"><div class="kk">Инфлация</div><h4>Защо усещаш инфлацията по-висока от официалната</h4><div class="mm">Очаквайте скоро</div></div>
+    </div>
+  </div>
+  <a class="alllink" href="blog.html">Всички анализи →</a>
+
+  <div class="sechead" id="news"><h2>What you can explore</h2><p>Five places to understand gold — not just buy it.</p></div>
   <div class="cards">
     <div class="card"><div class="ic">📰</div><h3>Gold News</h3><p>The day's moves across the assets that drive gold.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Silver</span><span class="tag">Fed</span><span class="tag">ECB</span><span class="tag">Inflation</span><span class="tag">Dollar</span></div></div>
-    <a class="card" href="blog.html" style="display:block"><div class="ic">📊</div><h3>Gold Analysis</h3><p>Deep, evergreen pieces that keep their value for years.</p><div class="tags"><span class="tag">Защо златото падна по време на война</span><span class="tag">Gold vs Bitcoin</span><span class="tag">Real rates</span></div></a>
     <div class="card" style="border-color:rgba(217,178,90,.4)"><div class="ic">🤖</div><h3>Gold AI — your companion</h3><p>Asks questions, gives understanding. Explains, never advises.</p><div class="tags"><span class="tag">Should I buy gold?</span><span class="tag">Gold or silver?</span><span class="tag">Remembers you</span></div></div>
     <div class="card"><div class="ic">📈</div><h3>Gold Charts</h3><p>Gold, silver, the dollar, real rates and BTC in one view.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Real rates</span><span class="tag">Fed funds</span><span class="tag">BTC</span></div></div>
     <div class="card"><div class="ic">🎓</div><h3>Learning Center</h3><p>Structured lessons: gold, inflation, diversification, the basics.</p><div class="tags"><span class="tag">15 lessons</span><span class="tag">Beginner → confident</span></div></div>
