@@ -6,12 +6,11 @@
   window.__alexWidget = true;
 
   var ENDPOINT = 'https://alex-finance.onrender.com/api/ask-alex/stream';
+  // No hardcoded portfolio — the visitor hasn't entered positions, so we must not
+  // claim they hold anything. Only topic focus + tone are set here.
   var PROFILE = {
-    risk_profile: 'moderate',
-    style: 'value',
     focus: 'precious_metals',
-    portfolio_positions: [{ ticker: 'XAUUSD' }, { ticker: 'XAGUSD' }, { ticker: 'GLD' }],
-    notes: 'Потребителят е инвеститор в благородни метали. Фокусирай отговорите върху злато, сребро, платина и паладий — реални лихви, DXY, инфлация, покупки на централни банки, индустриално търсене (соларни панели, електроника, автокатализатори) и геополитическа премия. Отговаряй на български. Обяснявай и образовай, но не давай персонализирани инвестиционни съвети.'
+    notes: 'Темата е благородни метали. Фокусирай отговорите върху злато, сребро, платина и паладий — реални лихви, DXY, инфлация, покупки на централни банки, индустриално търсене (соларни панели, електроника, автокатализатори) и геополитическа премия. ВАЖНО: не разполагаш с портфейла на потребителя — НЕ предполагай и НЕ твърди, че той държи конкретни позиции (злато, GLD и т.н.), освен ако сам не ти ги каже в разговора. Отговаряй на български. Обяснявай и образовай, но не давай персонализирани инвестиционни съвети.'
   };
 
   var html =
@@ -110,7 +109,12 @@
           if (line.indexOf('data:') !== 0) continue;
           try {
             var ev = JSON.parse(line.slice(5).trim());
-            if (ev.type === 'delta') { full += ev.text || ''; el.textContent = clean(full); feed.scrollTop = feed.scrollHeight; }
+            if (ev.type === 'delta') {
+              full += ev.text || '';
+              var atBottom = (feed.scrollHeight - feed.scrollTop - feed.clientHeight) < 60;
+              el.textContent = clean(full);
+              if (atBottom) feed.scrollTop = feed.scrollHeight;   // stick only if user is already at the bottom
+            }
           } catch (e) {}
         }
       }
