@@ -38,6 +38,28 @@
   .drivers .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
   .drv{display:flex;align-items:center;gap:9px;font-size:14px;margin:7px 0;color:#d7dbe2}
   .drv .i{width:18px;text-align:center}
+  /* daily brief — consolidated luxury card */
+  .brief{position:relative;margin-top:14px;border:1px solid #30333f;border-radius:18px;padding:26px 28px;overflow:hidden;
+    background:radial-gradient(135% 130% at 0% 0%, rgba(217,178,90,.11), rgba(21,24,31,.6) 50%), var(--panel)}
+  .brief::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold) 0%,rgba(217,178,90,.15) 45%,transparent 80%)}
+  .bgrid{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;align-items:stretch}
+  @media(max-width:760px){.bgrid{grid-template-columns:1fr}}
+  .bkick{font-size:11.5px;color:var(--gold2);letter-spacing:1px;text-transform:uppercase;margin-bottom:11px}
+  .breview h3{font-size:21px;font-weight:600;line-height:1.34;margin-bottom:13px;letter-spacing:-.2px}
+  .breview p{font-size:14px;color:#c7ccd5;margin-bottom:11px}
+  .breview .rm{font-size:13.5px;color:var(--gold2)}
+  .bprice{background:rgba(0,0,0,.25);border:1px solid #2c3140;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center}
+  .bprice .sym{font-size:12.5px;color:var(--muted)}
+  .bprice .px{font-size:34px;font-weight:600;margin:4px 0;letter-spacing:-.6px}
+  .bprice .chg{color:var(--up);font-size:13.5px;font-weight:500}
+  .bprice .dvs{border-top:1px solid var(--line);margin-top:14px;padding-top:13px}
+  .bprice .drv{font-size:13px;margin:6px 0;color:#cdd2da}
+  .bdiv{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:22px 0}
+  .bai{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .bai .txt{flex:1;min-width:250px}
+  .bai .abadge{font-size:11px;color:var(--up);border:1px solid rgba(78,200,138,.3);background:rgba(78,200,138,.08);padding:3px 11px;border-radius:13px;display:inline-block;margin-bottom:9px}
+  .bai p{font-size:14px;color:#c7ccd5;line-height:1.55}
+  .bai .btn{margin-top:0;white-space:nowrap}
   .sechead{margin:42px 0 16px}
   .sechead h2{font-size:20px;font-weight:600}
   .sechead p{color:var(--muted);font-size:14px;margin-top:3px}
@@ -123,30 +145,33 @@
   </div>
   <a class="alllink" href="blog.html">Всички анализи →</a>
 
-  <div class="hero">
-    <div>
-      <div class="greet">Добро утро</div>
-      <h1>Разберете златото, преди да го притежавате.</h1>
-      <div class="lead">Ежедневен макро поглед, ясни анализи и AI спътник, който обяснява какво движи пазара — и помни въпросите ви.</div>
-      <div class="aiview">
-        <div class="k">Днешен AI поглед</div>
-        <div>Златото е по-твърдо тази сутрин, докато доларът отслабва, а реалните доходности се понижават. Притокът към ETF-ите е положителен трета поредна сесия. Решението на Фед утре е основният риск — ястребова изненада би натиснала метала.</div>
-        <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Обясни ми това →</button>
+  <div class="brief">
+    <div class="bgrid">
+      <div class="breview">
+        <div class="bkick">Дневен обзор · 26 юни 2026</div>
+        <h3>Златото се задържа около $4000 — но дали пазарът вече е калкулирал всички добри новини?</h3>
+        <p>След няколко волатилни сесии цената се стабилизира близо до психологическата граница от 4000 долара. По-слабите данни за инфлацията намалиха вероятността за ново повишение на лихвите, а доходността по облигациите се понижи — традиционна подкрепа за метала.</p>
+        <p>Истинският въпрос обаче не е в едно число. След историческото рали златото навлиза във фаза, в която добрите новини носят все по-ограничен възходящ потенциал — а голяма част от позитивния сценарий вече е в цената.</p>
+        <a class="rm" href="articles/zlato-4000-kalkulirano.html">Прочети целия обзор →</a>
       </div>
-    </div>
-    <div>
-      <div class="pricecard">
+      <div class="bprice">
         <div class="sym">Злато · XAU/USD · демо</div>
-        <div class="px">$4 050<span style="font-size:18px;color:var(--muted)">.00</span></div>
-        <div class="chg">▲ +0.7%  ·  +$28.10 днес</div>
-        <div class="drivers">
-          <div class="k">Днешни двигатели</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Доларът отслабва (DXY −0.4%)</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> По-ниски реални доходности (10г TIPS −5bp)</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Приток към ETF, 3-та сесия</div>
-          <div class="drv"><span class="i" style="color:var(--warn)">⚠</span> Решение на Фед утре</div>
+        <div class="px">$4 002<span style="font-size:18px;color:var(--muted)">.30</span></div>
+        <div class="chg">▲ +0.7% · +$27.40 днес</div>
+        <div class="dvs">
+          <div class="drv"><span style="color:var(--up)">✓</span> Доларът отслабва (DXY −0.4%)</div>
+          <div class="drv"><span style="color:var(--up)">✓</span> По-ниски реални доходности</div>
+          <div class="drv"><span style="color:var(--warn)">⚠</span> Решение на Фед утре</div>
         </div>
       </div>
+    </div>
+    <div class="bdiv"></div>
+    <div class="bai">
+      <div class="txt">
+        <span class="abadge">● Мнение на AI · обяснява, не съветва</span>
+        <p>Движението днес е в съгласие с по-слабия долар и по-ниските реални доходности. Ключовият риск е утрешното решение на Фед — ястребова изненада би върнала натиска върху метала. Питай ме защо, ако искаш да го разнищим.</p>
+      </div>
+      <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Обясни ми това →</button>
     </div>
   </div>
 
