@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Advisor — your intelligent gold companion</title>
+<title>Gold Advisor — твоят интелигентен спътник за златото</title>
 <style>
   :root{
     --bg:#0d0f13; --panel:#15181f; --panel2:#1b1f28; --line:#262b36;
@@ -14,7 +14,6 @@
   body{background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
-  /* topbar */
   .top{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line)}
   .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:.3px}
   .brand .dot{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;color:#1a1408;font-weight:700;font-size:15px}
@@ -22,8 +21,7 @@
   .nav a:hover{color:var(--text)}
   .powered{font-size:11.5px;color:var(--muted);border:1px solid var(--line);padding:5px 10px;border-radius:20px}
   .powered b{color:var(--gold2);font-weight:500}
-  /* hero */
-  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;padding:34px 0 8px}
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;padding:30px 0 8px}
   @media(max-width:760px){.hero{grid-template-columns:1fr}.nav{display:none}}
   .greet{font-size:13px;color:var(--gold2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
   h1{font-size:30px;font-weight:600;line-height:1.25;letter-spacing:-.4px}
@@ -40,7 +38,6 @@
   .drivers .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
   .drv{display:flex;align-items:center;gap:9px;font-size:14px;margin:7px 0;color:#d7dbe2}
   .drv .i{width:18px;text-align:center}
-  /* cards */
   .sechead{margin:42px 0 16px}
   .sechead h2{font-size:20px;font-weight:600}
   .sechead p{color:var(--muted);font-size:14px;margin-top:3px}
@@ -53,12 +50,11 @@
   .card p{font-size:13.5px;color:var(--muted)}
   .card .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
   .tag{font-size:11.5px;color:var(--gold2);background:rgba(217,178,90,.1);border:1px solid rgba(217,178,90,.22);padding:3px 9px;border-radius:14px}
-  /* latest analysis */
   .latest{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:stretch}
   @media(max-width:760px){.latest{grid-template-columns:1fr}}
   .feat{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s}
   .feat:hover{border-color:#3a4150}
-  .feat .fcover{height:168px;background:linear-gradient(135deg,#1d2230,#13161d);display:flex;align-items:center;justify-content:center;font-size:46px}
+  .feat .fcover{height:200px;background:linear-gradient(135deg,#1d2230,#13161d);display:flex;align-items:center;justify-content:center;font-size:46px}
   .feat .fbody{padding:17px 20px 19px}
   .feat .kk{font-size:11.5px;color:var(--gold2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
   .feat h3{font-size:20px;font-weight:600;line-height:1.3;margin-bottom:8px}
@@ -73,7 +69,6 @@
   a.mini{transition:border-color .15s}
   a.mini:hover{border-color:#3a4150}
   .alllink{display:inline-block;margin-top:16px;font-size:14px;color:var(--gold2)}
-  /* chat */
   .chat{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:6px}
   .chat .head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line);background:var(--panel2)}
   .chat .head .who{display:flex;align-items:center;gap:10px;font-weight:600}
@@ -81,7 +76,7 @@
   .stream{padding:18px 20px;max-height:430px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
   .msg{max-width:82%;padding:11px 15px;border-radius:13px;font-size:14px;line-height:1.55}
   .msg.u{align-self:flex-end;background:var(--panel2);border:1px solid var(--line)}
-  .msg.a{align-self:flex-start;background:#11304a14;border:1px solid #2a3340;background:#171b24}
+  .msg.a{align-self:flex-start;border:1px solid #2a3340;background:#171b24}
   .msg.a .lbl{font-size:11px;color:var(--gold2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
   .memory{align-self:center;font-size:12.5px;color:var(--muted);background:rgba(217,178,90,.07);border:1px dashed rgba(217,178,90,.3);padding:8px 14px;border-radius:10px;text-align:center;max-width:92%}
   .chips{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}
@@ -89,14 +84,12 @@
   .chip:hover{border-color:var(--gold);color:var(--gold2)}
   .compliance{font-size:12.5px;color:var(--muted);padding:0 20px 16px;display:flex;align-items:center;gap:8px}
   .compliance b{color:var(--up);font-weight:500}
-  /* chart */
   .chartwrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-  .chartwrap .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-  .chartwrap .tabs{display:flex;gap:7px}
+  .chartwrap .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+  .chartwrap .tabs{display:flex;gap:7px;flex-wrap:wrap}
   .chartwrap .tabs span{font-size:12.5px;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
   .chartwrap .tabs span.on{color:var(--gold2);border-color:var(--gold)}
   .cbox{position:relative;height:230px;margin-top:8px}
-  /* footer */
   footer{margin-top:48px;border-top:1px solid var(--line);padding:26px 0 50px;color:var(--muted);font-size:13px}
   footer .pw{color:var(--gold2)}
   .disc{font-size:11.5px;color:#6c727d;margin-top:10px;max-width:80ch}
@@ -107,41 +100,14 @@
 
   <div class="top">
     <div class="brand"><span class="dot">G</span> GOLD ADVISOR</div>
-    <div class="nav"><a href="blog.html">Analysis</a><a href="#ai">Gold AI</a><a href="#charts">Charts</a><a href="#learn">Learn</a><a href="#macro">Macro</a></div>
+    <div class="nav"><a href="blog.html">Анализи</a><a href="#ai">Злато AI</a><a href="#charts">Графики</a><a href="#news">Обучение</a><a href="#macro">Макро</a></div>
     <div class="powered">Powered by <b>Alex Cognitive Architecture</b></div>
   </div>
 
-  <div class="hero">
-    <div>
-      <div class="greet">Good morning</div>
-      <h1>Understand gold before you own it.</h1>
-      <div class="lead">Daily macro, clear analysis, and an AI companion that explains what's moving the market — and remembers your questions.</div>
-      <div class="aiview">
-        <div class="k">Today's AI view</div>
-        <div>Gold is firmer this morning as the dollar eases and real yields drift lower. ETF inflows turned positive for a third session. The Fed decision tomorrow is the key risk — a hawkish surprise would pressure the metal.</div>
-        <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Explain this to me →</button>
-      </div>
-    </div>
-    <div>
-      <div class="pricecard">
-        <div class="sym">Gold · XAU/USD · demo</div>
-        <div class="px">$3,418<span style="font-size:18px;color:var(--muted)">.40</span></div>
-        <div class="chg">▲ +0.7%  ·  +$23.80 today</div>
-        <div class="drivers">
-          <div class="k">Today's drivers</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Dollar weaker (DXY −0.4%)</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Real yields lower (10y TIPS −5bp)</div>
-          <div class="drv"><span class="i" style="color:var(--up)">✓</span> ETF inflows, 3rd session</div>
-          <div class="drv"><span class="i" style="color:var(--warn)">⚠</span> Fed decision tomorrow</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sechead" id="analysis"><h2>Latest analysis</h2><p>Аналитично качество, написано за да се разбира — не просто да се чете.</p></div>
+  <div class="sechead" id="analysis" style="margin-top:30px"><h2>Последни анализи</h2><p>Аналитично качество, написано за да се разбира — не просто да се чете.</p></div>
   <div class="latest">
     <a class="feat" href="articles/zlato-srebro-ratio.html">
-      <div class="fcover" style="background:#13161d url('assets/img/gold-silver-ratio.png') center 30% / cover no-repeat"></div>
+      <div class="fcover" style="background:#13161d url('assets/img/hero-gold-silver.png') center / cover no-repeat"></div>
       <div class="fbody">
         <div class="kk">Злато · Сребро</div>
         <h3>Злато или сребро? Един показател показва кой е по-евтин</h3>
@@ -157,56 +123,82 @@
   </div>
   <a class="alllink" href="blog.html">Всички анализи →</a>
 
-  <div class="sechead" id="news"><h2>What you can explore</h2><p>Five places to understand gold — not just buy it.</p></div>
-  <div class="cards">
-    <div class="card"><div class="ic">📰</div><h3>Gold News</h3><p>The day's moves across the assets that drive gold.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Silver</span><span class="tag">Fed</span><span class="tag">ECB</span><span class="tag">Inflation</span><span class="tag">Dollar</span></div></div>
-    <div class="card" style="border-color:rgba(217,178,90,.4)"><div class="ic">🤖</div><h3>Gold AI — your companion</h3><p>Asks questions, gives understanding. Explains, never advises.</p><div class="tags"><span class="tag">Should I buy gold?</span><span class="tag">Gold or silver?</span><span class="tag">Remembers you</span></div></div>
-    <div class="card"><div class="ic">📈</div><h3>Gold Charts</h3><p>Gold, silver, the dollar, real rates and BTC in one view.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Real rates</span><span class="tag">Fed funds</span><span class="tag">BTC</span></div></div>
-    <div class="card"><div class="ic">🎓</div><h3>Learning Center</h3><p>Structured lessons: gold, inflation, diversification, the basics.</p><div class="tags"><span class="tag">15 lessons</span><span class="tag">Beginner → confident</span></div></div>
-    <div class="card"><div class="ic">🌅</div><h3>Daily Macro</h3><p>One clear read on the world economy, every morning.</p><div class="tags"><span class="tag">3-minute read</span><span class="tag">No jargon</span></div></div>
+  <div class="hero">
+    <div>
+      <div class="greet">Добро утро</div>
+      <h1>Разберете златото, преди да го притежавате.</h1>
+      <div class="lead">Ежедневен макро поглед, ясни анализи и AI спътник, който обяснява какво движи пазара — и помни въпросите ви.</div>
+      <div class="aiview">
+        <div class="k">Днешен AI поглед</div>
+        <div>Златото е по-твърдо тази сутрин, докато доларът отслабва, а реалните доходности се понижават. Притокът към ETF-ите е положителен трета поредна сесия. Решението на Фед утре е основният риск — ястребова изненада би натиснала метала.</div>
+        <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Обясни ми това →</button>
+      </div>
+    </div>
+    <div>
+      <div class="pricecard">
+        <div class="sym">Злато · XAU/USD · демо</div>
+        <div class="px">$4 050<span style="font-size:18px;color:var(--muted)">.00</span></div>
+        <div class="chg">▲ +0.7%  ·  +$28.10 днес</div>
+        <div class="drivers">
+          <div class="k">Днешни двигатели</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Доларът отслабва (DXY −0.4%)</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> По-ниски реални доходности (10г TIPS −5bp)</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Приток към ETF, 3-та сесия</div>
+          <div class="drv"><span class="i" style="color:var(--warn)">⚠</span> Решение на Фед утре</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="sechead" id="ai"><h2>Your Gold Companion</h2><p>It explains the market and remembers your questions — like a knowledgeable friend, available 24/7.</p></div>
+  <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Пет места да разбереш златото — не само да го купиш.</p></div>
+  <div class="cards">
+    <div class="card"><div class="ic">📰</div><h3>Новини за златото</h3><p>Дневните движения на активите, които движат златото.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Сребро</span><span class="tag">Фед</span><span class="tag">ЕЦБ</span><span class="tag">Инфлация</span><span class="tag">Долар</span></div></div>
+    <div class="card" style="border-color:rgba(217,178,90,.4)"><div class="ic">🤖</div><h3>Злато AI — твоят спътник</h3><p>Задава въпроси, дава разбиране. Обяснява, никога не съветва.</p><div class="tags"><span class="tag">Да купя ли злато?</span><span class="tag">Злато или сребро?</span><span class="tag">Помни те</span></div></div>
+    <div class="card"><div class="ic">📈</div><h3>Графики на златото</h3><p>Злато, сребро, доларът, реалните лихви и BTC на едно място.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Реални лихви</span><span class="tag">Фед</span><span class="tag">BTC</span></div></div>
+    <div class="card"><div class="ic">🎓</div><h3>Център за обучение</h3><p>Структурирани уроци: злато, инфлация, диверсификация, основите.</p><div class="tags"><span class="tag">15 урока</span><span class="tag">Начинаещ → уверен</span></div></div>
+    <div class="card"><div class="ic">🌅</div><h3>Ежедневен макро</h3><p>Един ясен прочит на световната икономика, всяка сутрин.</p><div class="tags"><span class="tag">3 минути</span><span class="tag">Без жаргон</span></div></div>
+  </div>
+
+  <div class="sechead" id="ai"><h2>Твоят златен спътник</h2><p>Обяснява пазара и помни въпросите ти — като знаещ приятел, на разположение 24/7.</p></div>
   <div class="chat">
     <div class="head">
       <div class="who"><span class="dot" style="width:24px;height:24px;font-size:13px">G</span> Gold Advisor AI</div>
-      <div class="badge">● Explains · never advises</div>
+      <div class="badge">● Обяснява · не съветва</div>
     </div>
     <div class="stream" id="stream">
-      <div class="memory">🕮 Last Tuesday you asked about gold at <b>$3,260</b>. It's now <b>+4.8%</b>. Want to see what changed in the fundamentals?</div>
-      <div class="msg a"><div class="lbl">Gold Advisor AI</div>Good morning. Gold is up 0.7% today on a softer dollar and lower real yields. Ask me anything — I'll explain, not tell you what to do.</div>
+      <div class="memory">🕮 Миналия вторник ме попита за златото при <b>$3 860</b>. Сега е <b>+4.8%</b>. Искаш ли да видим какво се промени във фундаментите?</div>
+      <div class="msg a"><div class="lbl">Gold Advisor AI</div>Добро утро. Златото е +0.7% днес заради по-слабия долар и по-ниските реални доходности. Питай ме каквото искаш — ще обясня, няма да ти казвам какво да правиш.</div>
     </div>
     <div class="chips" id="chips"></div>
-    <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; the assistant educates and explains. It does not give personalised investment advice — enforced at the architecture level, not by a disclaimer.</div>
+    <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; асистентът обучава и обяснява. Не дава персонализирани инвестиционни съвети — заложено на ниво архитектура, не чрез disclaimer.</div>
   </div>
 
-  <div class="sechead" id="charts"><h2>Gold Charts</h2><p>What gold is doing — and the forces behind it.</p></div>
+  <div class="sechead" id="charts"><h2>Графики на златото</h2><p>Какво прави златото — и силите зад него.</p></div>
   <div class="chartwrap">
     <div class="row">
-      <div style="font-weight:600">Gold · XAU/USD <span style="color:var(--muted);font-weight:400;font-size:13px">· 30 days · demo data</span></div>
-      <div class="tabs"><span class="on">Gold</span><span>Silver</span><span>Dollar</span><span>Real rates</span><span>BTC</span></div>
+      <div style="font-weight:600">Злато · XAU/USD <span style="color:var(--muted);font-weight:400;font-size:13px">· 30 дни · демо данни</span></div>
+      <div class="tabs"><span class="on">Злато</span><span>Сребро</span><span>Долар</span><span>Реални лихви</span><span>BTC</span></div>
     </div>
-    <div class="cbox"><canvas id="goldChart" role="img" aria-label="Illustrative 30-day gold price line trending upward."></canvas></div>
+    <div class="cbox"><canvas id="goldChart" role="img" aria-label="Илюстративна 30-дневна графика на цената на златото с възходяща тенденция."></canvas></div>
   </div>
 
   <footer id="macro">
-    <div>Built as a demonstration of a modern educational platform for gold investors.</div>
-    <div style="margin-top:6px">Powered by <span class="pw">Alex Cognitive Architecture</span> — a white-label intelligence layer adaptable to any vertical.</div>
-    <div class="disc">Demo / illustrative data. Educational content only. Not investment advice and not an offer to buy or sell any financial instrument. The AI assistant is designed to explain and educate, with architectural guardrails that prevent it from providing personalised investment recommendations.</div>
+    <div>Изградено като демонстрация на модерна образователна платформа за инвеститори в злато.</div>
+    <div style="margin-top:6px">Powered by <span class="pw">Alex Cognitive Architecture</span> — white-label интелигентен слой, адаптируем към всяка вертикала.</div>
+    <div class="disc">Демо / илюстративни данни. Само образователно съдържание. Не представлява инвестиционен съвет, нито предложение за покупка или продажба на финансови инструменти. AI асистентът е проектиран да обяснява и обучава, с архитектурни предпазители, които не му позволяват да дава персонализирани инвестиционни препоръки.</div>
   </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-  // ---- scripted, compliance-safe companion ----
   const QA = {
-    "Should I buy gold?": "I won't tell you what to do — that's your decision. But here's how to think about it: gold tends to do well when real interest rates fall, the dollar weakens, or trust in currencies drops. It pays no income, so in a high-rate world it competes with bonds. Ask yourself why you'd hold it — protection, diversification, or a view on inflation — and size it to that role, not to a price target.",
-    "Gold or silver?": "Different tools. Gold is the calmer store of value — central banks buy it, it's mostly a monetary asset. Silver is part monetary, part industrial (solar, electronics), so it's more volatile and more tied to the economy. Silver often moves more than gold in both directions. Neither is 'better' — it depends on whether you want stability or higher swings.",
-    "Why is gold falling today?": "When gold falls it's usually one of three things: real yields rising (bonds become more attractive), the dollar strengthening (gold is priced in dollars), or risk appetite returning (less demand for safety). I'd check those three before assuming anything company- or news-specific.",
-    "Explain inflation like I'm 15": "Imagine your €10 buys 10 chocolate bars today. Inflation means next year the same €10 buys only 9. Your money didn't shrink — prices grew. It usually happens when there's too much money chasing too few goods. Gold is one thing people hold because, historically, it tends to keep its buying power when money loses some of its.",
-    "How much gold should people own?": "There's no single right number, and I can't set yours. As context: many long-term investors who hold gold treat it as a small protective slice of a portfolio rather than a core holding, precisely because it's insurance, not income. The right size depends on your goals, time horizon and what role you want it to play — that's a conversation for you and a licensed advisor."
+    "Да купя ли злато?": "Няма да ти казвам какво да правиш — това е твое решение. Но ето как да мислиш за него: златото обикновено се представя добре, когато реалните лихви падат, доларът отслабва или доверието във валутите намалява. То не носи доход, затова в свят на високи лихви се конкурира с облигациите. Запитай се защо би го държал — защита, диверсификация или възглед за инфлацията — и го оразмери според тази роля, не според ценова цел.",
+    "Злато или сребро?": "Различни инструменти. Златото е по-спокойното средство за съхранение на стойност — централните банки го купуват, то е предимно паричен актив. Среброто е отчасти парично, отчасти индустриално (соларни панели, електроника), затова е по-волатилно и по-обвързано с икономиката. Среброто често се движи повече от златото и в двете посоки. Нито едното не е „по-добро“ — зависи дали искаш стабилност или по-големи колебания.",
+    "Защо златото пада днес?": "Когато златото пада, обикновено е едно от три неща: реалните доходности се покачват (облигациите стават по-привлекателни), доларът се засилва (златото е в долари) или апетитът за риск се връща (по-малко търсене на сигурност). Бих проверил тези три, преди да предположа нещо специфично за новина или компания.",
+    "Обясни инфлацията просто": "Представи си, че 10 лева ти купуват 10 шоколада днес. Инфлация значи, че догодина същите 10 лева купуват само 9. Парите ти не са се свили — цените са пораснали. Обикновено става, когато има твърде много пари, гонещи твърде малко стоки. Златото е едно от нещата, които хората държат, защото исторически обикновено запазва покупателната си способност, когато парите губят част от своята.",
+    "Колко злато да притежавам?": "Няма едно правилно число и не мога да задам твоето. За контекст: много дългосрочни инвеститори, които държат злато, го третират като малък защитен дял от портфейла, а не като ядро — точно защото е застраховка, не доход. Правилният размер зависи от целите ти, хоризонта и ролята, която искаш да играе — това е разговор за теб и лицензиран консултант."
   };
-  const chips = ["Should I buy gold?","Gold or silver?","Why is gold falling today?","Explain inflation like I'm 15","How much gold should people own?"];
+  const chips = ["Да купя ли злато?","Злато или сребро?","Защо златото пада днес?","Обясни инфлацията просто","Колко злато да притежавам?"];
   const stream = document.getElementById('stream');
   function add(role,text,label){
     const d=document.createElement('div'); d.className='msg '+role;
@@ -215,14 +207,13 @@
   }
   function ask(q){
     add('u',q);
-    setTimeout(()=>add('a',QA[q]||"That's a great question — in the full version I'd answer from iGold's own library of articles, so every reply stays on-brand and on-message.","Gold Advisor AI"),350);
+    setTimeout(()=>add('a',QA[q]||"Чудесен въпрос — в пълната версия бих отговорил от собствената библиотека статии на iGold, така че всеки отговор остава на марката и в посланието.","Gold Advisor AI"),350);
   }
   const chipBox=document.getElementById('chips');
   chips.forEach(q=>{const c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=()=>ask(q);chipBox.appendChild(c);});
 
-  // ---- demo gold chart ----
-  const base=[3180,3172,3195,3210,3188,3204,3235,3248,3231,3255,3270,3262,3289,3301,3294,3312,3330,3322,3345,3360,3351,3338,3366,3380,3372,3395,3402,3389,3410,3418];
-  const labels=base.map((_,i)=>'D'+(i+1));
+  const base=[3760,3752,3775,3792,3770,3786,3818,3832,3814,3840,3856,3848,3876,3889,3882,3901,3920,3912,3936,3952,3943,3930,3959,3974,3966,3990,3998,3984,4006,4050];
+  const labels=base.map((_,i)=>'Д'+(i+1));
   new Chart(document.getElementById('goldChart'),{
     type:'line',
     data:{labels,datasets:[{data:base,borderColor:'#d9b25a',backgroundColor:'rgba(217,178,90,.10)',fill:true,borderWidth:2,pointRadius:0,tension:.3}]},
