@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Advisor — your intelligent gold companion</title>
+<style>
+  :root{
+    --bg:#0d0f13; --panel:#15181f; --panel2:#1b1f28; --line:#262b36;
+    --text:#eceef2; --muted:#9aa1ad; --gold:#d9b25a; --gold2:#e7cd8a;
+    --up:#4ec88a; --warn:#e0a13c; --info:#5aa0e6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  /* topbar */
+  .top{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:.3px}
+  .brand .dot{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;color:#1a1408;font-weight:700;font-size:15px}
+  .nav{display:flex;gap:22px;font-size:14px;color:var(--muted)}
+  .nav a:hover{color:var(--text)}
+  .powered{font-size:11.5px;color:var(--muted);border:1px solid var(--line);padding:5px 10px;border-radius:20px}
+  .powered b{color:var(--gold2);font-weight:500}
+  /* hero */
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;padding:34px 0 8px}
+  @media(max-width:760px){.hero{grid-template-columns:1fr}.nav{display:none}}
+  .greet{font-size:13px;color:var(--gold2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+  h1{font-size:30px;font-weight:600;line-height:1.25;letter-spacing:-.4px}
+  .lead{color:var(--muted);margin-top:12px;max-width:46ch}
+  .aiview{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:20px}
+  .aiview .k{font-size:12px;color:var(--gold2);letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1408;font-weight:600;border:none;border-radius:10px;padding:11px 18px;margin-top:14px;cursor:pointer;font-size:14px}
+  .btn:hover{filter:brightness(1.06)}
+  .pricecard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .pricecard .sym{font-size:13px;color:var(--muted)}
+  .pricecard .px{font-size:34px;font-weight:600;margin:2px 0}
+  .pricecard .chg{color:var(--up);font-size:14px;font-weight:500}
+  .drivers{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+  .drivers .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+  .drv{display:flex;align-items:center;gap:9px;font-size:14px;margin:7px 0;color:#d7dbe2}
+  .drv .i{width:18px;text-align:center}
+  /* cards */
+  .sechead{margin:42px 0 16px}
+  .sechead h2{font-size:20px;font-weight:600}
+  .sechead p{color:var(--muted);font-size:14px;margin-top:3px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;transition:border-color .15s}
+  .card:hover{border-color:#3a4150}
+  .card .ic{width:38px;height:38px;border-radius:10px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:13px}
+  .card h3{font-size:16px;font-weight:600;margin-bottom:5px}
+  .card p{font-size:13.5px;color:var(--muted)}
+  .card .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:11.5px;color:var(--gold2);background:rgba(217,178,90,.1);border:1px solid rgba(217,178,90,.22);padding:3px 9px;border-radius:14px}
+  /* chat */
+  .chat{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:6px}
+  .chat .head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line);background:var(--panel2)}
+  .chat .head .who{display:flex;align-items:center;gap:10px;font-weight:600}
+  .chat .head .badge{font-size:11.5px;color:var(--up);border:1px solid rgba(78,200,138,.3);background:rgba(78,200,138,.08);padding:4px 10px;border-radius:14px}
+  .stream{padding:18px 20px;max-height:430px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+  .msg{max-width:82%;padding:11px 15px;border-radius:13px;font-size:14px;line-height:1.55}
+  .msg.u{align-self:flex-end;background:var(--panel2);border:1px solid var(--line)}
+  .msg.a{align-self:flex-start;background:#11304a14;border:1px solid #2a3340;background:#171b24}
+  .msg.a .lbl{font-size:11px;color:var(--gold2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+  .memory{align-self:center;font-size:12.5px;color:var(--muted);background:rgba(217,178,90,.07);border:1px dashed rgba(217,178,90,.3);padding:8px 14px;border-radius:10px;text-align:center;max-width:92%}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}
+  .chip{font-size:13px;color:#d7dbe2;background:var(--panel2);border:1px solid var(--line);padding:8px 13px;border-radius:18px;cursor:pointer}
+  .chip:hover{border-color:var(--gold);color:var(--gold2)}
+  .compliance{font-size:12.5px;color:var(--muted);padding:0 20px 16px;display:flex;align-items:center;gap:8px}
+  .compliance b{color:var(--up);font-weight:500}
+  /* chart */
+  .chartwrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .chartwrap .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .chartwrap .tabs{display:flex;gap:7px}
+  .chartwrap .tabs span{font-size:12.5px;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  .chartwrap .tabs span.on{color:var(--gold2);border-color:var(--gold)}
+  .cbox{position:relative;height:230px;margin-top:8px}
+  /* footer */
+  footer{margin-top:48px;border-top:1px solid var(--line);padding:26px 0 50px;color:var(--muted);font-size:13px}
+  footer .pw{color:var(--gold2)}
+  .disc{font-size:11.5px;color:#6c727d;margin-top:10px;max-width:80ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand"><span class="dot">G</span> GOLD ADVISOR</div>
+    <div class="nav"><a href="#news">News</a><a href="#ai">Gold AI</a><a href="#charts">Charts</a><a href="#learn">Learn</a><a href="#macro">Macro</a></div>
+    <div class="powered">Powered by <b>Alex Cognitive Architecture</b></div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="greet">Good morning</div>
+      <h1>Understand gold before you own it.</h1>
+      <div class="lead">Daily macro, clear analysis, and an AI companion that explains what's moving the market — and remembers your questions.</div>
+      <div class="aiview">
+        <div class="k">Today's AI view</div>
+        <div>Gold is firmer this morning as the dollar eases and real yields drift lower. ETF inflows turned positive for a third session. The Fed decision tomorrow is the key risk — a hawkish surprise would pressure the metal.</div>
+        <button class="btn" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Explain this to me →</button>
+      </div>
+    </div>
+    <div>
+      <div class="pricecard">
+        <div class="sym">Gold · XAU/USD · demo</div>
+        <div class="px">$3,418<span style="font-size:18px;color:var(--muted)">.40</span></div>
+        <div class="chg">▲ +0.7%  ·  +$23.80 today</div>
+        <div class="drivers">
+          <div class="k">Today's drivers</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Dollar weaker (DXY −0.4%)</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> Real yields lower (10y TIPS −5bp)</div>
+          <div class="drv"><span class="i" style="color:var(--up)">✓</span> ETF inflows, 3rd session</div>
+          <div class="drv"><span class="i" style="color:var(--warn)">⚠</span> Fed decision tomorrow</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sechead" id="news"><h2>What you can explore</h2><p>Six places to understand gold — not just buy it.</p></div>
+  <div class="cards">
+    <div class="card"><div class="ic">📰</div><h3>Gold News</h3><p>The day's moves across the assets that drive gold.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Silver</span><span class="tag">Fed</span><span class="tag">ECB</span><span class="tag">Inflation</span><span class="tag">Dollar</span></div></div>
+    <div class="card"><div class="ic">📊</div><h3>Gold Analysis</h3><p>Deep, evergreen pieces that keep their value for years.</p><div class="tags"><span class="tag">Why central banks buy gold</span><span class="tag">Gold vs Bitcoin</span><span class="tag">Real rates explained</span></div></div>
+    <div class="card" style="border-color:rgba(217,178,90,.4)"><div class="ic">🤖</div><h3>Gold AI — your companion</h3><p>Asks questions, gives understanding. Explains, never advises.</p><div class="tags"><span class="tag">Should I buy gold?</span><span class="tag">Gold or silver?</span><span class="tag">Remembers you</span></div></div>
+    <div class="card"><div class="ic">📈</div><h3>Gold Charts</h3><p>Gold, silver, the dollar, real rates and BTC in one view.</p><div class="tags"><span class="tag">Gold</span><span class="tag">Real rates</span><span class="tag">Fed funds</span><span class="tag">BTC</span></div></div>
+    <div class="card"><div class="ic">🎓</div><h3>Learning Center</h3><p>Structured lessons: gold, inflation, diversification, the basics.</p><div class="tags"><span class="tag">15 lessons</span><span class="tag">Beginner → confident</span></div></div>
+    <div class="card"><div class="ic">🌅</div><h3>Daily Macro</h3><p>One clear read on the world economy, every morning.</p><div class="tags"><span class="tag">3-minute read</span><span class="tag">No jargon</span></div></div>
+  </div>
+
+  <div class="sechead" id="ai"><h2>Your Gold Companion</h2><p>It explains the market and remembers your questions — like a knowledgeable friend, available 24/7.</p></div>
+  <div class="chat">
+    <div class="head">
+      <div class="who"><span class="dot" style="width:24px;height:24px;font-size:13px">G</span> Gold Advisor AI</div>
+      <div class="badge">● Explains · never advises</div>
+    </div>
+    <div class="stream" id="stream">
+      <div class="memory">🕮 Last Tuesday you asked about gold at <b>$3,260</b>. It's now <b>+4.8%</b>. Want to see what changed in the fundamentals?</div>
+      <div class="msg a"><div class="lbl">Gold Advisor AI</div>Good morning. Gold is up 0.7% today on a softer dollar and lower real yields. Ask me anything — I'll explain, not tell you what to do.</div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; the assistant educates and explains. It does not give personalised investment advice — enforced at the architecture level, not by a disclaimer.</div>
+  </div>
+
+  <div class="sechead" id="charts"><h2>Gold Charts</h2><p>What gold is doing — and the forces behind it.</p></div>
+  <div class="chartwrap">
+    <div class="row">
+      <div style="font-weight:600">Gold · XAU/USD <span style="color:var(--muted);font-weight:400;font-size:13px">· 30 days · demo data</span></div>
+      <div class="tabs"><span class="on">Gold</span><span>Silver</span><span>Dollar</span><span>Real rates</span><span>BTC</span></div>
+    </div>
+    <div class="cbox"><canvas id="goldChart" role="img" aria-label="Illustrative 30-day gold price line trending upward."></canvas></div>
+  </div>
+
+  <footer id="macro">
+    <div>Built as a demonstration of a modern educational platform for gold investors.</div>
+    <div style="margin-top:6px">Powered by <span class="pw">Alex Cognitive Architecture</span> — a white-label intelligence layer adaptable to any vertical.</div>
+    <div class="disc">Demo / illustrative data. Educational content only. Not investment advice and not an offer to buy or sell any financial instrument. The AI assistant is designed to explain and educate, with architectural guardrails that prevent it from providing personalised investment recommendations.</div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  // ---- scripted, compliance-safe companion ----
+  const QA = {
+    "Should I buy gold?": "I won't tell you what to do — that's your decision. But here's how to think about it: gold tends to do well when real interest rates fall, the dollar weakens, or trust in currencies drops. It pays no income, so in a high-rate world it competes with bonds. Ask yourself why you'd hold it — protection, diversification, or a view on inflation — and size it to that role, not to a price target.",
+    "Gold or silver?": "Different tools. Gold is the calmer store of value — central banks buy it, it's mostly a monetary asset. Silver is part monetary, part industrial (solar, electronics), so it's more volatile and more tied to the economy. Silver often moves more than gold in both directions. Neither is 'better' — it depends on whether you want stability or higher swings.",
+    "Why is gold falling today?": "When gold falls it's usually one of three things: real yields rising (bonds become more attractive), the dollar strengthening (gold is priced in dollars), or risk appetite returning (less demand for safety). I'd check those three before assuming anything company- or news-specific.",
+    "Explain inflation like I'm 15": "Imagine your €10 buys 10 chocolate bars today. Inflation means next year the same €10 buys only 9. Your money didn't shrink — prices grew. It usually happens when there's too much money chasing too few goods. Gold is one thing people hold because, historically, it tends to keep its buying power when money loses some of its.",
+    "How much gold should people own?": "There's no single right number, and I can't set yours. As context: many long-term investors who hold gold treat it as a small protective slice of a portfolio rather than a core holding, precisely because it's insurance, not income. The right size depends on your goals, time horizon and what role you want it to play — that's a conversation for you and a licensed advisor."
+  };
+  const chips = ["Should I buy gold?","Gold or silver?","Why is gold falling today?","Explain inflation like I'm 15","How much gold should people own?"];
+  const stream = document.getElementById('stream');
+  function add(role,text,label){
+    const d=document.createElement('div'); d.className='msg '+role;
+    if(label){const l=document.createElement('div');l.className='lbl';l.textContent=label;d.appendChild(l);}
+    d.appendChild(document.createTextNode(text)); stream.appendChild(d); stream.scrollTop=stream.scrollHeight;
+  }
+  function ask(q){
+    add('u',q);
+    setTimeout(()=>add('a',QA[q]||"That's a great question — in the full version I'd answer from iGold's own library of articles, so every reply stays on-brand and on-message.","Gold Advisor AI"),350);
+  }
+  const chipBox=document.getElementById('chips');
+  chips.forEach(q=>{const c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=()=>ask(q);chipBox.appendChild(c);});
+
+  // ---- demo gold chart ----
+  const base=[3180,3172,3195,3210,3188,3204,3235,3248,3231,3255,3270,3262,3289,3301,3294,3312,3330,3322,3345,3360,3351,3338,3366,3380,3372,3395,3402,3389,3410,3418];
+  const labels=base.map((_,i)=>'D'+(i+1));
+  new Chart(document.getElementById('goldChart'),{
+    type:'line',
+    data:{labels,datasets:[{data:base,borderColor:'#d9b25a',backgroundColor:'rgba(217,178,90,.10)',fill:true,borderWidth:2,pointRadius:0,tension:.3}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()}}},
+      scales:{x:{display:false},y:{position:'right',grid:{color:'rgba(154,161,173,.12)'},ticks:{color:'#9aa1ad',callback:v=>'$'+v}}}}
+  });
+</script>
+</body>
+</html>
