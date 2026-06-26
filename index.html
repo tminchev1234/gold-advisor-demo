@@ -71,6 +71,30 @@
   .rg-name{font-size:17px;font-weight:600;margin-top:1px}
   .rg-desc{flex:1;min-width:240px;font-size:13px;color:#c7ccd5;line-height:1.5}
   .rg-gold{font-size:12.5px;color:var(--gold2);border:1px solid rgba(217,178,90,.3);background:rgba(217,178,90,.08);padding:6px 13px;border-radius:10px;white-space:nowrap}
+  /* gold seasonality card */
+  .season{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:6px}
+  .season-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+  .season-now{font-size:16px;font-weight:600;line-height:1.45}
+  .season-now b{color:var(--gold2)}
+  .season-sub{font-size:13px;color:var(--muted);margin-top:5px;max-width:62ch;line-height:1.55}
+  .season-regime{font-size:12.5px;color:var(--gold2);border:1px solid rgba(217,178,90,.3);background:rgba(217,178,90,.08);padding:6px 13px;border-radius:10px;white-space:nowrap}
+  .season-regime b{font-weight:600}
+  .season-bars{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;align-items:end}
+  .season-bar{display:flex;flex-direction:column;align-items:center}
+  .season-bar .cell{display:flex;flex-direction:column;width:100%;height:104px}
+  .season-bar .pos{flex:1;display:flex;align-items:flex-end;justify-content:center}
+  .season-bar .neg{flex:1;display:flex;align-items:flex-start;justify-content:center;position:relative}
+  .season-bar .neg::before{content:'';position:absolute;top:0;left:-3px;right:-3px;height:1px;background:var(--line)}
+  .season-bar .col{width:100%;max-width:24px;min-height:2px}
+  .season-bar .col.up{background:linear-gradient(180deg,#5fd49a,#3a9e6c);border-radius:5px 5px 0 0}
+  .season-bar .col.down{background:linear-gradient(180deg,#e0746f,#bf4540);border-radius:0 0 5px 5px}
+  .season-bar .mlab{font-size:10.5px;color:var(--muted);margin-top:7px}
+  .season-bar .mval{font-size:9.5px;color:#7a808c;margin-top:1px;font-variant-numeric:tabular-nums}
+  .season-bar.cur .mlab{color:var(--gold2);font-weight:700}
+  .season-bar.cur .col{outline:2px solid var(--gold2);outline-offset:1px}
+  .season-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:18px}
+  .season-note{font-size:11px;color:#6c727d;max-width:64ch;line-height:1.5}
+  @media(max-width:560px){.season-bar .mval{display:none}.season-bar .cell{height:84px}}
   /* trending strip */
   .trending{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
   .trending .tr-label{font-size:13px;color:var(--gold2);font-weight:500;white-space:nowrap}
@@ -280,6 +304,22 @@
 
   <button class="btn" onclick="window.alexAsk&&window.alexAsk('Кой благороден метал — злато, сребро, платина или паладий — изглежда най-интересен в момента и защо? Обясни ми простичко, с примери.')" style="margin-top:14px">💬 Попитай Алекс за металите →</button>
 
+  <div class="sechead" id="seasonality"><h2>Сезонност на златото</h2><p>Как се е държало златото по месеци — 10-годишна история от сезонния скенер на платформата. Образователно, не препоръка.</p></div>
+  <div class="season">
+    <div class="season-head">
+      <div>
+        <div class="season-now" id="season-now">Зарежда сезонните данни…</div>
+        <div class="season-sub" id="season-sub"></div>
+      </div>
+      <div class="season-regime" id="season-regime">Режим днес: <b>…</b></div>
+    </div>
+    <div class="season-bars" id="season-bars"></div>
+    <div class="season-foot">
+      <span class="season-note">Източник: сезонен скенер на платформата · GLD · 10 г. средни месечни доходности. Зелено = исторически средно нагоре, червено = средно надолу; контурът маркира текущия месец. Историческите модели не гарантират бъдещи резултати — не е инвестиционен съвет.</span>
+      <button class="btn" onclick="window.alexAsk&&window.alexAsk('Обясни ми сезонността на златото — защо някои месеци (юни, септември) исторически са по-слаби, а други (ноември–януари, юли) по-силни, и доколко изобщо да разчитам на сезонност при злато?')">💬 Обясни сезонността →</button>
+    </div>
+  </div>
+
   <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Платформата плюс продуктите и офертите на iGold — на едно място.</p></div>
   <div class="cards">
     <a class="card" href="https://igold.bg/zlatni-kyulcheta-investitsionni" target="_blank" rel="noopener" style="display:block"><div class="ic">🥇</div><h3>Нашият топ продукт</h3><p>Инвестиционни кюлчета и монети от Valcambi, Argor-Heraeus и PAMP Suisse — от 1 г до 1 oz.</p><div class="tags"><span class="tag">Най-продавано</span><span class="tag">0% ДДС</span><span class="tag">1 г – 1 oz</span></div></a>
@@ -367,6 +407,39 @@
     var c=document.getElementById('bp-chg');c.textContent=d.chg;c.style.color=d.up?'#4ec88a':'#e24b4a';
   };});
 
+  // ---- gold seasonality (live from the platform's seasonal scanner) ----
+  (function(){
+    var BARS=document.getElementById('season-bars'); if(!BARS) return;
+    var MN={1:'Янв',2:'Фев',3:'Мар',4:'Апр',5:'Май',6:'Юни',7:'Юли',8:'Авг',9:'Сеп',10:'Окт',11:'Ное',12:'Дек'};
+    function wins(wr){ return Math.round((wr||0)*10); }
+    function render(d){
+      var monthly=(d&&d.monthly)||[];
+      if(!monthly.length){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; return; }
+      var maxAbs=Math.max.apply(null,monthly.map(function(m){return Math.abs(m.avg_return||0);}))||1;
+      var cur=d.current_month;
+      var html='';
+      monthly.forEach(function(m){
+        var v=m.avg_return||0, h=Math.min(100,Math.abs(v)/maxAbs*100), up=v>=0, isCur=m.period===cur;
+        html+='<div class="season-bar'+(isCur?' cur':'')+'" title="'+MN[m.period]+': '+(v>0?'+':'')+v.toFixed(1)+'% · печеливш в '+wins(m.win_rate)+' от 10 г.">'
+          +'<div class="cell"><div class="pos">'+(up?'<div class="col up" style="height:'+h+'%"></div>':'')+'</div>'
+          +'<div class="neg">'+(!up?'<div class="col down" style="height:'+h+'%"></div>':'')+'</div></div>'
+          +'<div class="mlab">'+MN[m.period]+'</div><div class="mval">'+(v>0?'+':'')+v.toFixed(1)+'</div></div>';
+      });
+      BARS.innerHTML=html;
+      var cm=monthly.filter(function(m){return m.period===cur;})[0];
+      var nx=(cur%12)+1, nm=monthly.filter(function(m){return m.period===nx;})[0];
+      if(cm){
+        document.getElementById('season-now').innerHTML='Сега е <b>'+MN[cur]+'</b> — исторически '+(cm.avg_return>=0?'силен':'по-слаб')+' месец за златото ('+(cm.avg_return>0?'+':'')+cm.avg_return.toFixed(1)+'%, печеливш в '+wins(cm.win_rate)+' от 10 г.).';
+      }
+      if(nm){
+        document.getElementById('season-sub').textContent='Следва '+MN[nx]+': средно '+(nm.avg_return>0?'+':'')+nm.avg_return.toFixed(1)+'% ('+wins(nm.win_rate)+'/10 г.). Сезонността е попътен вятър, не правило — реалните лихви, доларът и пазарният режим тежат повече.';
+      }
+    }
+    fetch('https://alex-finance.onrender.com/api/seasonality/ticker/GLD')
+      .then(function(r){return r.json();}).then(render)
+      .catch(function(){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; });
+  })();
+
   // ---- today's market regime (live from Alex) ----
   (function(){
     var RG={
@@ -386,6 +459,7 @@
       document.getElementById('rg-gold').textContent='Влияние върху златото: '+m.gold;
       document.querySelector('.rg-dot').style.background=m.color;
       document.getElementById('regime').style.borderColor=m.color+'66';
+      var sr=document.getElementById('season-regime'); if(sr) sr.innerHTML='Режим днес: <b>'+m.bg+'</b>';
     }
     fetch('https://alex-finance.onrender.com/alex/today').then(function(r){return r.json();}).then(function(d){
       var reg=d.regime||{}; paint(reg.name, reg.confidence, reg.description);
