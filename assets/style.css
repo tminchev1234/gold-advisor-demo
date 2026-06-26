@@ -61,6 +61,11 @@ a{color:inherit;text-decoration:none}
 .figure{margin:26px 0}
 .figure img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
 .figure figcaption{font-size:12.5px;color:var(--muted);margin-top:9px;text-align:center}
+.article table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+.article th{text-align:left;background:var(--panel2);color:var(--gold2);font-weight:600;padding:11px 16px;border:1px solid var(--line)}
+.article td{padding:10px 16px;border:1px solid var(--line);color:#dfe2e8}
+.article tbody tr:nth-child(even){background:rgba(255,255,255,.025)}
+.article td:last-child,.article th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 
 /* AI CTA */
 .aicta{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:30px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
