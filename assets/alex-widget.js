@@ -19,12 +19,12 @@
       '<div style="padding:14px 16px;background:rgba(217,178,90,.07);border-bottom:1px solid rgba(217,178,90,.16);display:flex;align-items:center;justify-content:space-between">' +
         '<div style="display:flex;align-items:center;gap:10px">' +
           '<div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e7cd8a,#d9b25a);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#1a1408">A</div>' +
-          '<div><div style="font-size:13.5px;font-weight:700;color:#e8d5a3">Alex</div><div style="font-size:10.5px;color:rgba(217,178,90,.65)">Метали &amp; пазари · AI компаньон</div></div>' +
+          '<div><div style="font-size:13.5px;font-weight:700;color:#e8d5a3">Gold Advisor AI</div><div style="font-size:10px;color:rgba(217,178,90,.6)">Powered by Alex Cognitive Architecture</div></div>' +
         '</div>' +
         '<button id="alex-close" aria-label="Затвори" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:4px">✕</button>' +
       '</div>' +
       '<div id="alex-feed" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">' +
-        '<div style="background:rgba(217,178,90,.06);border:1px solid rgba(217,178,90,.13);border-radius:12px;padding:12px 14px;font-size:12.5px;color:rgba(232,213,163,.92);line-height:1.55">Здравей, аз съм <b>Alex</b>. Питай ме за <b>златото, среброто, платината или паладия</b> — цени, макро двигатели, реални лихви, инфлация, централни банки. Обяснявам, не давам персонализирани съвети.</div>' +
+        '<div style="background:rgba(217,178,90,.06);border:1px solid rgba(217,178,90,.13);border-radius:12px;padding:12px 14px;font-size:12.5px;color:rgba(232,213,163,.92);line-height:1.55">Здравей, аз съм <b>Gold Advisor AI</b>. Питай ме за <b>златото, среброто, платината или паладия</b> — цени, макро двигатели, реални лихви, инфлация, централни банки. Обяснявам, не давам персонализирани съвети.</div>' +
       '</div>' +
       '<div id="alex-chips" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 8px"></div>' +
       '<div style="padding:12px;border-top:1px solid rgba(255,255,255,.07)">' +
