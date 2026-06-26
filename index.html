@@ -142,6 +142,28 @@
   .mm-cta{margin-top:22px}
   .mm-disc{font-size:10.5px;color:#6c727d;margin-top:14px}
   @media(max-width:560px){.mm-stats{grid-template-columns:repeat(2,1fr)}.mm-card{padding:20px 18px}}
+  .mm-ratio{margin-bottom:15px}
+  .mm-ratio:last-child{margin-bottom:0}
+  .mm-ratio-top{display:flex;justify-content:space-between;align-items:baseline}
+  .mm-ratio-name{font-size:13.5px;color:#dfe2e8}
+  .mm-ratio-top b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+  .mm-mean{position:absolute;top:-3px;width:2px;height:13px;background:var(--muted);transform:translateX(-50%);border-radius:1px}
+  .mm-ratio-foot{display:flex;justify-content:space-between;font-size:10.5px;color:#6c727d;margin-top:7px}
+  .mm-ratio-foot b{color:#9aa1ad;font-weight:600}
+  .mm-ratio-verdict{color:var(--gold2)}
+  /* gold vs assets chart */
+  .vsa{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:6px}
+  .vsa-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:14px}
+  .vsa-li{display:flex;align-items:center;gap:7px;font-size:13px;color:#cdd2da}
+  .vsa-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+  .vsa-li b{font-variant-numeric:tabular-nums}
+  .vsa-chart{width:100%}
+  .vsa-chart text{fill:#7a808c;font-size:11px}
+  .vsa-grid{stroke:rgba(255,255,255,.06)}
+  .vsa-base{stroke:rgba(255,255,255,.22);stroke-dasharray:4 4}
+  .vsa-line{fill:none;stroke-width:2;vector-effect:non-scaling-stroke}
+  .vsa-foot{font-size:10.5px;color:#6c727d;margin-top:12px}
+  .vsa-loading{padding:30px 0;color:#6c727d;font-size:13px;text-align:center}
   /* trending strip */
   .trending{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
   .trending .tr-label{font-size:13px;color:var(--gold2);font-weight:500;white-space:nowrap}
@@ -314,6 +336,13 @@
     <div class="mt-foot"><span id="mt-asof">·</span> · Източник: платформата · ETF прокси (GLD · SLV · PPLT · PALL). Само информативно, не е инвестиционен съвет.</div>
   </div>
 
+  <div class="sechead" id="vsassets"><h2>Златото спрямо други активи</h2><p>Злато, Bitcoin, петрол и недвижими имоти — нормализирани към 100 в началото, последните 5 години. На една времева линия.</p></div>
+  <div class="vsa">
+    <div class="vsa-legend" id="vsa-legend"></div>
+    <div id="vsa-chart-wrap"><div class="vsa-loading">Зарежда сравнението…</div></div>
+    <div class="vsa-foot" id="vsa-foot">Източник: платформата · GLD · BTC-USD · CL=F (WTI) · VNQ (US REIT). Нормализирано към 100 в началния месец. Само информативно, не е инвестиционен съвет.</div>
+  </div>
+
   <div class="sechead" id="analysis"><h2>Последни анализи</h2><p>Аналитично качество, написано за да се разбира — не просто да се чете.</p></div>
   <div class="latest">
     <a class="feat" href="articles/zlato-srebro-ratio.html">
@@ -413,7 +442,11 @@
         <div><div class="mm-title" id="mm-title">—</div><div class="mm-sym" id="mm-sym">—</div></div>
       </div>
       <div class="mm-stats" id="mm-stats"></div>
-      <div class="mm-section">
+      <div class="mm-section" id="mm-ratio-sec">
+        <div class="mm-sec-h">⚖️ Съотношения спрямо 5-годишната норма</div>
+        <div id="mm-ratios"><div class="mm-empty">…</div></div>
+      </div>
+      <div class="mm-section" id="mm-season-sec">
         <div class="mm-sec-h">📅 Сезонност · 10-годишна история по месеци</div>
         <div class="mm-bars" id="mm-bars"><div class="mm-empty">…</div></div>
       </div>
@@ -539,7 +572,23 @@
       gold:{ic:'🥇',stk:'GLD',name:'златото'}, silver:{ic:'🥈',stk:'SLV',name:'среброто'},
       platinum:{ic:'⚪',stk:null,name:'платината'}, palladium:{ic:'⚫',stk:null,name:'паладия'}
     };
-    var DATA=null;
+    var RATIO_FOR={gold:['gs','gpt','gpd'], silver:['gs'], platinum:['gpt'], palladium:['gpd']};
+    var DATA=null, RATIOS=null;
+    function ratioBlock(key){
+      if(!RATIOS) return '<div class="mm-empty">Зарежда съотношенията…</div>';
+      var want=RATIO_FOR[key]||[];
+      var rows=RATIOS.filter(function(r){return want.indexOf(r.key)>=0;});
+      if(!rows.length) return '<div class="mm-empty">Няма данни за съотношения.</div>';
+      return rows.map(function(r){
+        var span=(r.max5y-r.min5y)||1;
+        var posR=Math.max(2,Math.min(98,(r.current-r.min5y)/span*100));
+        var posM=Math.max(2,Math.min(98,(r.mean5y-r.min5y)/span*100));
+        var verdict=r.pct>=80?'близо до 5-год. връх':(r.pct<=20?'близо до 5-год. дъно':'около средното');
+        return '<div class="mm-ratio"><div class="mm-ratio-top"><span class="mm-ratio-name">'+r.name+'</span><b>'+r.current.toFixed(1)+'</b></div>'
+          +'<div class="mt-track" style="margin-top:8px"><div class="mm-mean" style="left:'+posM+'%"></div><div class="mt-dot" style="left:'+posR+'%"></div></div>'
+          +'<div class="mm-ratio-foot"><span>5г. дъно '+r.min5y.toFixed(1)+'</span><span class="mm-ratio-verdict">'+verdict+' · ср. '+r.mean5y.toFixed(1)+'</span><span>връх '+r.max5y.toFixed(1)+'</span></div></div>';
+      }).join('');
+    }
     function cell(v){
       if(v===null||v===undefined||isNaN(v)) return '<div class="mt-val mt-mut">—</div>';
       var cls=v>0?'mt-up':(v<0?'mt-down':'mt-mut');
@@ -597,14 +646,17 @@
         stat('1 месец',m.r1m)+stat('3 месеца',m.r3m)+stat('1 година',m.r1y)
         +'<div class="mm-stat mm-wide"><span>Позиция в 52-седмичния диапазон</span><div class="mt-track" style="margin-top:9px"><div class="mt-dot" style="left:'+pos+'%"></div></div><div class="mt-ends"><span>52с. дъно</span><span>52с. връх</span></div></div>'
         +stat('Отстояние от върха',m.from_high);
+      document.getElementById('mm-ratios').innerHTML=ratioBlock(key);
+      var seasonSec=document.getElementById('mm-season-sec');
       var BARS=document.getElementById('mm-bars');
       if(meta.stk){
+        seasonSec.style.display='';
         BARS.innerHTML='<div class="mm-empty">Зарежда сезонността…</div>';
         fetch('https://alex-finance.onrender.com/api/seasonality/ticker/'+meta.stk)
           .then(function(r){return r.json();}).then(function(sd){ BARS.innerHTML=seasonBars(sd&&sd.monthly, sd&&sd.current_month); })
           .catch(function(){ BARS.innerHTML='<div class="mm-empty">Сезонните данни не са налични в момента.</div>'; });
       } else {
-        BARS.innerHTML='<div class="mm-empty">Сезонните данни за този метал още не са в скенера. Попитай Алекс за повече.</div>';
+        seasonSec.style.display='none';   // platinum/palladium have no seasonal series in the scanner
       }
       document.getElementById('mm-ask').onclick=function(){ closeModal(); if(window.alexAsk) window.alexAsk('Разкажи ми повече за '+meta.name+' като инвестиция — какво движи цената, какви са перспективите и основните рискове. Обясни ми простичко, без да ме съветваш какво да правя.'); };
       document.getElementById('metal-modal').style.display='flex';
@@ -617,6 +669,45 @@
     fetch('https://alex-finance.onrender.com/api/metals/performance')
       .then(function(r){return r.json();}).then(render)
       .catch(function(){ ROWS.innerHTML='<div class="mt-loading">Данните за металите не са налични в момента.</div>'; });
+    fetch('https://alex-finance.onrender.com/api/metals/ratios')
+      .then(function(r){return r.json();}).then(function(d){ RATIOS=(d&&d.ratios)||[]; })
+      .catch(function(){ RATIOS=[]; });
+  })();
+
+  // ---- gold vs other assets (normalized 5y timeline, live from the platform) ----
+  (function(){
+    var WRAP=document.getElementById('vsa-chart-wrap'); if(!WRAP) return;
+    function draw(d){
+      if(!d||!d.labels||!d.labels.length||d.error){ WRAP.innerHTML='<div class="vsa-loading">Данните за сравнението не са налични в момента.</div>'; return; }
+      var labels=d.labels, series=d.series, assets=d.assets, fin=d.final||{};
+      var keys=assets.map(function(a){return a.key;});
+      document.getElementById('vsa-legend').innerHTML=assets.map(function(a){
+        var fv=fin[a.key], pv=(typeof fv==='number')?Math.round(fv-100):null;
+        return '<span class="vsa-li"><span class="vsa-dot" style="background:'+a.color+'"></span>'+a.name+' <b style="color:'+a.color+'">'+(pv===null?'':((pv>0?'+':'')+pv+'%'))+'</b></span>';
+      }).join('');
+      var all=[]; keys.forEach(function(k){ (series[k]||[]).forEach(function(v){ all.push(v); }); });
+      var mn=Math.min.apply(null,all), mx=Math.max.apply(null,all), pad=((mx-mn)*0.08)||10; mn-=pad; mx+=pad;
+      var W=760,H=300,padL=42,padR=12,padT=12,padB=24, iw=W-padL-padR, ih=H-padT-padB, n=labels.length;
+      function X(i){ return padL+(n<=1?0:i/(n-1)*iw); }
+      function Y(v){ return padT+(1-(v-mn)/(mx-mn))*ih; }
+      var svg='<svg class="vsa-chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">';
+      for(var t=0;t<=5;t++){ var val=mn+(mx-mn)*t/5, yy=Y(val);
+        svg+='<line class="vsa-grid" x1="'+padL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yy.toFixed(1)+'"/>';
+        svg+='<text x="'+(padL-6)+'" y="'+(yy+3.5).toFixed(1)+'" text-anchor="end">'+Math.round(val)+'</text>'; }
+      if(100>=mn&&100<=mx){ var y100=Y(100); svg+='<line class="vsa-base" x1="'+padL+'" y1="'+y100.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y100.toFixed(1)+'"/>'; }
+      labels.forEach(function(lab,i){ if(/-01$/.test(lab)){ var xx=X(i);
+        svg+='<line class="vsa-grid" x1="'+xx.toFixed(1)+'" y1="'+padT+'" x2="'+xx.toFixed(1)+'" y2="'+(H-padB)+'"/>';
+        svg+='<text x="'+xx.toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle">'+lab.slice(0,4)+'</text>'; } });
+      assets.forEach(function(a){ var s=series[a.key]||[], dp='';
+        s.forEach(function(v,i){ dp+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)+' '; });
+        svg+='<path class="vsa-line" d="'+dp+'" stroke="'+a.color+'"/>'; });
+      svg+='</svg>';
+      WRAP.innerHTML=svg;
+      if(d.asof) document.getElementById('vsa-foot').innerHTML='Към '+d.asof+' · Източник: платформата · GLD · BTC-USD · CL=F (WTI) · VNQ (US REIT). Нормализирано към 100 в началния месец. Само информативно, не е инвестиционен съвет.';
+    }
+    fetch('https://alex-finance.onrender.com/api/metals/vs-assets')
+      .then(function(r){return r.json();}).then(draw)
+      .catch(function(){ WRAP.innerHTML='<div class="vsa-loading">Данните за сравнението не са налични в момента.</div>'; });
   })();
 
   // ---- today's market regime (live from Alex) ----
