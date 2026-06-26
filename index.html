@@ -95,6 +95,31 @@
   .season-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:18px}
   .season-note{font-size:11px;color:#6c727d;max-width:64ch;line-height:1.5}
   @media(max-width:560px){.season-bar .mval{display:none}.season-bar .cell{height:84px}}
+  .season-tabs{display:flex;gap:8px;margin-bottom:16px}
+  .season-tabs button{font-size:13px;color:#cdd2da;background:var(--panel2);border:1px solid var(--line);padding:7px 15px;border-radius:9px;cursor:pointer;font-weight:500;transition:all .15s}
+  .season-tabs button:hover{border-color:#3a4150}
+  .season-tabs button.on{color:#1a1408;background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:transparent}
+  /* metals at-a-glance table */
+  .mtable{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-top:6px;overflow-x:auto}
+  .mt-head,.mt-row{display:grid;grid-template-columns:1.5fr .8fr .8fr .8fr 2.1fr 1fr;align-items:center;gap:10px;padding:13px 18px;min-width:640px}
+  .mt-head{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--line)}
+  .mt-head>div{text-align:right}.mt-head .mt-h-name{text-align:left}.mt-head .mt-h-range{text-align:center}
+  .mt-row{border-bottom:1px solid rgba(255,255,255,.04)}
+  .mt-row:last-child{border-bottom:none}
+  .mt-row:hover{background:rgba(255,255,255,.02)}
+  .mt-name{display:flex;flex-direction:column;line-height:1.3}
+  .mt-name b{font-size:14.5px;font-weight:600}
+  .mt-name span{font-size:11px;color:var(--muted)}
+  .mt-val{text-align:right;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+  .mt-up{color:#4ec88a}.mt-down{color:#e24b4a}.mt-mut{color:#6c727d}
+  .mt-range-cell{padding:0 6px}
+  .mt-track{position:relative;height:7px;border-radius:4px;background:linear-gradient(90deg,rgba(226,75,74,.30),rgba(224,161,60,.25),rgba(78,200,138,.30))}
+  .mt-dot{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--gold2);border:2px solid var(--panel);transform:translate(-50%,-50%);box-shadow:0 0 0 1px var(--gold)}
+  .mt-ends{display:flex;justify-content:space-between;font-size:9.5px;color:#6c727d;margin-top:5px}
+  .mt-fromhi{text-align:right;font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums}
+  .mt-foot{font-size:10.5px;color:#6c727d;padding:11px 18px;border-top:1px solid rgba(255,255,255,.04)}
+  .mt-loading{padding:26px 18px;color:#6c727d;font-size:13px}
+  @media(max-width:560px){.mt-name span{display:none}}
   /* trending strip */
   .trending{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
   .trending .tr-label{font-size:13px;color:var(--gold2);font-weight:500;white-space:nowrap}
@@ -255,6 +280,18 @@
     </div>
   </div>
 
+  <div class="sechead" id="metals"><h2>Металите с един поглед</h2><p>Представяне на четирите благородни метала — 1 месец, 3 месеца и 1 година, плюс позиция в 52-седмичния диапазон и отстояние от върха. На живо от платформата.</p></div>
+  <div class="mtable">
+    <div class="mt-head">
+      <div class="mt-h-name">Метал</div>
+      <div>1М</div><div>3М</div><div>1Г</div>
+      <div class="mt-h-range">52-седмичен диапазон</div>
+      <div>От върха</div>
+    </div>
+    <div id="mt-rows"><div class="mt-loading">Зарежда данните за металите…</div></div>
+    <div class="mt-foot"><span id="mt-asof">·</span> · Източник: платформата · ETF прокси (GLD · SLV · PPLT · PALL). Само информативно, не е инвестиционен съвет.</div>
+  </div>
+
   <div class="sechead" id="analysis"><h2>Последни анализи</h2><p>Аналитично качество, написано за да се разбира — не просто да се чете.</p></div>
   <div class="latest">
     <a class="feat" href="articles/zlato-srebro-ratio.html">
@@ -306,6 +343,10 @@
 
   <div class="sechead" id="seasonality"><h2>Сезонност на златото</h2><p>Как се е държало златото по месеци — 10-годишна история от сезонния скенер на платформата. Образователно, не препоръка.</p></div>
   <div class="season">
+    <div class="season-tabs">
+      <button data-st="GLD" data-name="златото" class="on">Злато</button>
+      <button data-st="SLV" data-name="среброто">Сребро</button>
+    </div>
     <div class="season-head">
       <div>
         <div class="season-now" id="season-now">Зарежда сезонните данни…</div>
@@ -407,14 +448,15 @@
     var c=document.getElementById('bp-chg');c.textContent=d.chg;c.style.color=d.up?'#4ec88a':'#e24b4a';
   };});
 
-  // ---- gold seasonality (live from the platform's seasonal scanner) ----
+  // ---- metals seasonality (live from the platform's seasonal scanner, with tabs) ----
   (function(){
     var BARS=document.getElementById('season-bars'); if(!BARS) return;
     var MN={1:'Янв',2:'Фев',3:'Мар',4:'Апр',5:'Май',6:'Юни',7:'Юли',8:'Авг',9:'Сеп',10:'Окт',11:'Ное',12:'Дек'};
     function wins(wr){ return Math.round((wr||0)*10); }
+    var curName='златото';
     function render(d){
       var monthly=(d&&d.monthly)||[];
-      if(!monthly.length){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; return; }
+      if(!monthly.length){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; document.getElementById('season-sub').textContent=''; return; }
       var maxAbs=Math.max.apply(null,monthly.map(function(m){return Math.abs(m.avg_return||0);}))||1;
       var cur=d.current_month;
       var html='';
@@ -429,15 +471,58 @@
       var cm=monthly.filter(function(m){return m.period===cur;})[0];
       var nx=(cur%12)+1, nm=monthly.filter(function(m){return m.period===nx;})[0];
       if(cm){
-        document.getElementById('season-now').innerHTML='Сега е <b>'+MN[cur]+'</b> — исторически '+(cm.avg_return>=0?'силен':'по-слаб')+' месец за златото ('+(cm.avg_return>0?'+':'')+cm.avg_return.toFixed(1)+'%, печеливш в '+wins(cm.win_rate)+' от 10 г.).';
+        document.getElementById('season-now').innerHTML='Сега е <b>'+MN[cur]+'</b> — исторически '+(cm.avg_return>=0?'силен':'по-слаб')+' месец за '+curName+' ('+(cm.avg_return>0?'+':'')+cm.avg_return.toFixed(1)+'%, печеливш в '+wins(cm.win_rate)+' от 10 г.).';
       }
       if(nm){
         document.getElementById('season-sub').textContent='Следва '+MN[nx]+': средно '+(nm.avg_return>0?'+':'')+nm.avg_return.toFixed(1)+'% ('+wins(nm.win_rate)+'/10 г.). Сезонността е попътен вятър, не правило — реалните лихви, доларът и пазарният режим тежат повече.';
       }
     }
-    fetch('https://alex-finance.onrender.com/api/seasonality/ticker/GLD')
+    function load(ticker){
+      BARS.innerHTML='';
+      document.getElementById('season-now').textContent='Зарежда сезонните данни…';
+      document.getElementById('season-sub').textContent='';
+      fetch('https://alex-finance.onrender.com/api/seasonality/ticker/'+ticker)
+        .then(function(r){return r.json();}).then(render)
+        .catch(function(){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; });
+    }
+    document.querySelectorAll('.season-tabs button').forEach(function(b){ b.onclick=function(){
+      document.querySelectorAll('.season-tabs button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); curName=b.dataset.name; load(b.dataset.st);
+    };});
+    load('GLD');
+  })();
+
+  // ---- metals at-a-glance performance table (live from the platform) ----
+  (function(){
+    var ROWS=document.getElementById('mt-rows'); if(!ROWS) return;
+    function cell(v){
+      if(v===null||v===undefined||isNaN(v)) return '<div class="mt-val mt-mut">—</div>';
+      var cls=v>0?'mt-up':(v<0?'mt-down':'mt-mut');
+      return '<div class="mt-val '+cls+'">'+(v>0?'+':'')+v.toFixed(1)+'%</div>';
+    }
+    function render(d){
+      var metals=(d&&d.metals)||[];
+      var ok=metals.filter(function(m){return typeof m.r1y==='number';});
+      if(!ok.length){ ROWS.innerHTML='<div class="mt-loading">Данните за металите не са налични в момента.</div>'; return; }
+      var html='';
+      metals.forEach(function(m){
+        if(typeof m.r1y!=='number'){ return; }
+        var pos=Math.max(2,Math.min(98,m.pos52));
+        var fh=(typeof m.from_high==='number')?m.from_high:null;
+        html+='<div class="mt-row">'
+          +'<div class="mt-name"><b>'+m.name+'</b><span>'+m.symbol+'</span></div>'
+          +cell(m.r1m)+cell(m.r3m)+cell(m.r1y)
+          +'<div class="mt-range-cell"><div class="mt-track"><div class="mt-dot" style="left:'+pos+'%"></div></div>'
+            +'<div class="mt-ends"><span>52с. дъно</span><span>52с. връх</span></div></div>'
+          +(fh===null?'<div class="mt-fromhi mt-mut">—</div>':'<div class="mt-fromhi '+(fh<-0.1?'mt-down':'mt-mut')+'">'+fh.toFixed(1)+'%</div>')
+          +'</div>';
+      });
+      ROWS.innerHTML=html;
+      if(d.asof) document.getElementById('mt-asof').textContent='Към '+d.asof;
+    }
+    fetch('https://alex-finance.onrender.com/api/metals/performance')
       .then(function(r){return r.json();}).then(render)
-      .catch(function(){ document.getElementById('season-now').textContent='Сезонните данни не са налични в момента.'; });
+      .catch(function(){ ROWS.innerHTML='<div class="mt-loading">Данните за металите не са налични в момента.</div>'; });
   })();
 
   // ---- today's market regime (live from Alex) ----
