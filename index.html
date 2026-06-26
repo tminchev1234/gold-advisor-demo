@@ -60,6 +60,22 @@
   .bai .abadge{font-size:11px;color:var(--up);border:1px solid rgba(78,200,138,.3);background:rgba(78,200,138,.08);padding:3px 11px;border-radius:13px;display:inline-block;margin-bottom:9px}
   .bai p{font-size:14px;color:#c7ccd5;line-height:1.55}
   .bai .btn{margin-top:0;white-space:nowrap}
+  /* big interactive metals chart */
+  .bigchart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-top:6px}
+  .bc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .bc-metals{display:flex;gap:8px;flex-wrap:wrap}
+  .bc-metals button{font-size:14px;color:#cdd2da;background:var(--panel2);border:1px solid var(--line);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:500;transition:all .15s}
+  .bc-metals button:hover{border-color:#3a4150}
+  .bc-metals button.on{color:#1a1408;background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:transparent}
+  .bc-price{text-align:right}
+  .bc-name{font-size:12.5px;color:var(--muted)}
+  .bc-px{font-size:30px;font-weight:600;letter-spacing:-.5px;line-height:1.12}
+  .bc-chg{font-size:14px;font-weight:500}
+  .bc-ranges{display:flex;gap:6px;margin:14px 0 2px}
+  .bc-ranges button{font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--line);padding:5px 12px;border-radius:8px;cursor:pointer}
+  .bc-ranges button.on{color:var(--gold2);border-color:var(--gold)}
+  .bc-canvas{position:relative;height:340px;margin-top:8px}
+  @media(max-width:560px){.bc-canvas{height:260px}.bc-px{font-size:24px}}
   .sechead{margin:42px 0 16px}
   .sechead h2{font-size:20px;font-weight:600}
   .sechead p{color:var(--muted);font-size:14px;margin-top:3px}
@@ -175,6 +191,27 @@
     </div>
   </div>
 
+  <div class="sechead" id="charts"><h2>Графики на металите</h2><p>Злато, сребро, платина и паладий — превключи метала и периода.</p></div>
+  <div class="bigchart">
+    <div class="bc-head">
+      <div class="bc-metals">
+        <button data-m="gold" class="on">Злато</button>
+        <button data-m="silver">Сребро</button>
+        <button data-m="platinum">Платина</button>
+        <button data-m="palladium">Паладий</button>
+      </div>
+      <div class="bc-price">
+        <div class="bc-name" id="bcname">Злато · XAU/USD</div>
+        <div class="bc-px" id="bcpx">$4 002</div>
+        <div class="bc-chg" id="bcchg" style="color:#4ec88a">▲ +0.7%</div>
+      </div>
+    </div>
+    <div class="bc-ranges">
+      <button data-r="21">1М</button><button data-r="63">3М</button><button data-r="250" class="on">1Г</button>
+    </div>
+    <div class="bc-canvas"><canvas id="metalChart" role="img" aria-label="Интерактивна графика на цените на злато, сребро, платина и паладий с превключване на метала и периода."></canvas></div>
+  </div>
+
   <div class="sechead" id="news"><h2>Какво можеш да разгледаш</h2><p>Пет места да разбереш златото — не само да го купиш.</p></div>
   <div class="cards">
     <div class="card"><div class="ic">📰</div><h3>Новини за златото</h3><p>Дневните движения на активите, които движат златото.</p><div class="tags"><span class="tag">Злато</span><span class="tag">Сребро</span><span class="tag">Фед</span><span class="tag">ЕЦБ</span><span class="tag">Инфлация</span><span class="tag">Долар</span></div></div>
@@ -196,15 +233,6 @@
     </div>
     <div class="chips" id="chips"></div>
     <div class="compliance">🛡 <b>Compliance by design:</b>&nbsp; асистентът обучава и обяснява. Не дава персонализирани инвестиционни съвети — заложено на ниво архитектура, не чрез disclaimer.</div>
-  </div>
-
-  <div class="sechead" id="charts"><h2>Графики на златото</h2><p>Какво прави златото — и силите зад него.</p></div>
-  <div class="chartwrap">
-    <div class="row">
-      <div style="font-weight:600">Злато · XAU/USD <span style="color:var(--muted);font-weight:400;font-size:13px">· 30 дни · демо данни</span></div>
-      <div class="tabs"><span class="on">Злато</span><span>Сребро</span><span>Долар</span><span>Реални лихви</span><span>BTC</span></div>
-    </div>
-    <div class="cbox"><canvas id="goldChart" role="img" aria-label="Илюстративна 30-дневна графика на цената на златото с възходяща тенденция."></canvas></div>
   </div>
 
   <footer id="macro">
@@ -237,15 +265,37 @@
   const chipBox=document.getElementById('chips');
   chips.forEach(q=>{const c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=()=>ask(q);chipBox.appendChild(c);});
 
-  const base=[3760,3752,3775,3792,3770,3786,3818,3832,3814,3840,3856,3848,3876,3889,3882,3901,3920,3912,3936,3952,3943,3930,3959,3974,3966,3990,3998,3984,4006,4050];
-  const labels=base.map((_,i)=>'Д'+(i+1));
-  new Chart(document.getElementById('goldChart'),{
-    type:'line',
-    data:{labels,datasets:[{data:base,borderColor:'#d9b25a',backgroundColor:'rgba(217,178,90,.10)',fill:true,borderWidth:2,pointRadius:0,tension:.3}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()}}},
-      scales:{x:{display:false},y:{position:'right',grid:{color:'rgba(154,161,173,.12)'},ticks:{color:'#9aa1ad',callback:v=>'$'+v}}}}
-  });
+  // ---- interactive metals chart ----
+  const METALS={
+    gold:{name:'Злато · XAU/USD',color:'#d9b25a',seed:11,start:3500,drift:0.00055,vol:0.011},
+    silver:{name:'Сребро · XAG/USD',color:'#c3c8d2',seed:23,start:44,drift:0.0009,vol:0.021},
+    platinum:{name:'Платина · XPT/USD',color:'#a7bccf',seed:37,start:980,drift:0.0006,vol:0.015},
+    palladium:{name:'Паладий · XPD/USD',color:'#bda9d6',seed:41,start:980,drift:0.0004,vol:0.018}
+  };
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function gen(m){var r=rng(m.seed),n=250,a=[],p=m.start;for(var i=0;i<n;i++){p=p*(1+m.drift+(r()-0.5)*m.vol);a.push(Math.round(p*100)/100);}return a;}
+  const DATA={};Object.keys(METALS).forEach(k=>DATA[k]=gen(METALS[k]));
+  function hexA(h,a){var n=parseInt(h.slice(1),16);return'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')';}
+  const fmt=v=>'$'+v.toLocaleString('en-US',{maximumFractionDigits:v<100?2:0});
+  let curMetal='gold',curRange=250,chart;
+  function slice(){var f=DATA[curMetal];return f.slice(f.length-curRange);}
+  function render(){
+    var d=slice(),m=METALS[curMetal],last=d[d.length-1],first=d[0],chg=(last-first)/first*100;
+    document.getElementById('bcname').textContent=m.name;
+    document.getElementById('bcpx').textContent=fmt(last);
+    var ce=document.getElementById('bcchg');
+    ce.textContent=(chg>=0?'▲ +':'▼ ')+chg.toFixed(1)+'%';
+    ce.style.color=chg>=0?'#4ec88a':'#e24b4a';
+    var labels=d.map((_,i)=>i);
+    if(chart){chart.data.labels=labels;chart.data.datasets[0].data=d;chart.data.datasets[0].borderColor=m.color;chart.data.datasets[0].backgroundColor=hexA(m.color,.10);chart.update();}
+    else{chart=new Chart(document.getElementById('metalChart'),{type:'line',
+      data:{labels,datasets:[{data:d,borderColor:m.color,backgroundColor:hexA(m.color,.10),fill:true,borderWidth:2,pointRadius:0,tension:.3}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:()=>'',label:c=>fmt(c.parsed.y)}}},
+      scales:{x:{display:false},y:{position:'right',grid:{color:'rgba(154,161,173,.12)'},ticks:{color:'#9aa1ad',callback:v=>fmt(v)}}}}});}
+  }
+  document.querySelectorAll('.bc-metals button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.bc-metals button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curMetal=b.dataset.m;render();});
+  document.querySelectorAll('.bc-ranges button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.bc-ranges button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curRange=+b.dataset.r;render();});
+  render();
 </script>
 </body>
 </html>
