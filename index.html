@@ -41,7 +41,14 @@
   /* daily brief — consolidated luxury card */
   .brief{position:relative;margin-top:14px;border:1px solid #30333f;border-radius:18px;padding:26px 28px;overflow:hidden;
     background:radial-gradient(135% 130% at 0% 0%, rgba(217,178,90,.11), rgba(21,24,31,.6) 50%), var(--panel)}
-  .brief::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold) 0%,rgba(217,178,90,.15) 45%,transparent 80%)}
+  .brief::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;z-index:3;background:linear-gradient(90deg,var(--gold) 0%,rgba(217,178,90,.15) 45%,transparent 80%)}
+  .bhero{position:relative;margin:-26px -28px 24px;min-height:208px;overflow:hidden;display:flex;align-items:flex-end;
+    background:#13161d url('assets/img/hero-gold-silver.png') center/cover no-repeat}
+  .bhero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,15,19,.10) 0%,rgba(13,15,19,.34) 48%,rgba(13,15,19,.93) 100%)}
+  .bhero-cap{position:relative;padding:22px 28px 20px;max-width:80%}
+  .bhero-cap .bkick{margin-bottom:9px}
+  .bhero-cap h3{font-size:23px;font-weight:600;line-height:1.26;letter-spacing:-.2px;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+  @media(max-width:560px){.bhero{min-height:170px;margin:-26px -28px 22px}.bhero-cap{max-width:100%;padding:18px 22px 16px}.bhero-cap h3{font-size:19px}}
   .bgrid{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;align-items:stretch}
   @media(max-width:760px){.bgrid{grid-template-columns:1fr}}
   .bkick{font-size:11.5px;color:var(--gold2);letter-spacing:1px;text-transform:uppercase;margin-bottom:11px}
@@ -304,10 +311,14 @@
   </div>
 
   <div class="brief">
-    <div class="bgrid">
-      <div class="breview">
+    <div class="bhero">
+      <div class="bhero-cap">
         <div class="bkick">Дневен обзор · 26 юни 2026</div>
         <h3>Златото се задържа около $4000 — но дали пазарът вече е калкулирал всички добри новини?</h3>
+      </div>
+    </div>
+    <div class="bgrid">
+      <div class="breview">
         <p>След няколко волатилни сесии цената се стабилизира близо до психологическата граница от 4000 долара. По-слабите данни за инфлацията намалиха вероятността за ново повишение на лихвите, а доходността по облигациите се понижи — традиционна подкрепа за метала.</p>
         <p>Истинският въпрос обаче не е в едно число. След историческото рали златото навлиза във фаза, в която добрите новини носят все по-ограничен възходящ потенциал — а голяма част от позитивния сценарий вече е в цената.</p>
         <a class="rm" href="articles/zlato-4000-kalkulirano.html">Прочети целия обзор →</a>
