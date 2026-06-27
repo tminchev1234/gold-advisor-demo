@@ -13,6 +13,31 @@
     notes: 'Темата е благородни метали. Фокусирай отговорите върху злато, сребро, платина и паладий — реални лихви, DXY, инфлация, покупки на централни банки, индустриално търсене (соларни панели, електроника, автокатализатори) и геополитическа премия. ВАЖНО: не разполагаш с портфейла на потребителя — НЕ предполагай и НЕ твърди, че той държи конкретни позиции (злато, GLD и т.н.), освен ако сам не ти ги каже в разговора. Отговаряй на български. Обяснявай и образовай, но не давай персонализирани инвестиционни съвети.'
   };
 
+  // Live metal prices fed into the profile so Alex never says "I don't have live data".
+  var LIVE_PRICES_NOTE = '';
+  fetch('https://alex-finance.onrender.com/api/metals/performance')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var m = (d && d.metals) || [];
+      var parts = m.map(function (x) {
+        if (typeof x.price !== 'number') return null;
+        var p = '$' + (x.price >= 100 ? Math.round(x.price).toLocaleString('en-US') : x.price.toFixed(1));
+        var ch = (typeof x.r1d === 'number') ? (' (' + (x.r1d > 0 ? '+' : '') + x.r1d.toFixed(1) + '% за деня)') : '';
+        return x.name + ' ' + p + ch;
+      }).filter(Boolean);
+      if (parts.length) {
+        LIVE_PRICES_NOTE = 'РАЗПОЛАГАШ С ТЕКУЩИ ЦЕНИ НА ЖИВО на металите (към ' + (d.asof || 'днес') +
+          ') — използвай ги директно и НЕ казвай, че нямаш достъп до живи данни: ' + parts.join('; ') +
+          '. Това са спот цени в USD за тройунция (злато, платина, паладий) и за унция сребро.';
+      }
+    })
+    .catch(function () {});
+
+  function profileWithPrices() {
+    if (!LIVE_PRICES_NOTE) return PROFILE;
+    return { focus: PROFILE.focus, notes: PROFILE.notes + '\n\n' + LIVE_PRICES_NOTE };
+  }
+
   var html =
     '<button id="alex-toggle" aria-label="Отвори Alex" style="position:fixed;bottom:22px;right:22px;z-index:99999;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#e7cd8a,#d9b25a);box-shadow:0 6px 22px rgba(217,178,90,.45);font-size:23px;display:flex;align-items:center;justify-content:center;transition:transform .2s">💬</button>' +
     '<div id="alex-panel" style="display:none;position:fixed;bottom:88px;right:22px;z-index:99998;width:370px;max-width:calc(100vw - 32px);height:540px;max-height:calc(100vh - 120px);border-radius:16px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.5);background:#0d0f13;border:1px solid rgba(217,178,90,.28);flex-direction:column">' +
@@ -76,7 +101,11 @@
   function linkify(text) {
     var s = escapeHtml(text);
     s = s.replace(/\[([^\]]+)\]\((\/[^)\s]+|https?:\/\/[^)\s]+)\)/g, function (m, label, url) {
-      var abs = url.charAt(0) === '/' ? (PLATFORM + url) : url;
+      var path = url;
+      // Alex invents specific lesson numbers (label rarely matches the real lesson),
+      // so send every academy link to the academy dashboard instead of a wrong lesson.
+      if (path.charAt(0) === '/' && /^\/academy(\/|$)/.test(path)) path = '/academy';
+      var abs = path.charAt(0) === '/' ? (PLATFORM + path) : path;
       if (!/^https?:\/\//.test(abs)) return label;
       return '<a href="' + abs + '" target="_blank" rel="noopener" style="color:#e7cd8a;text-decoration:underline;font-weight:600">' + label + '</a>';
     });
@@ -109,7 +138,7 @@
       var res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, profile: PROFILE, companion_mode: true, skip_grounding: false })
+        body: JSON.stringify({ messages: history, profile: profileWithPrices(), companion_mode: true, skip_grounding: false })
       });
       clearTimeout(slow);
       el.textContent = '';
