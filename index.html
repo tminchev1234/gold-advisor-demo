@@ -123,7 +123,8 @@
   @media(max-width:560px){.snorm-stats b{font-size:15px}}
   /* metals at-a-glance table */
   .mtable{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-top:6px;overflow-x:auto}
-  .mt-head,.mt-row{display:grid;grid-template-columns:1.5fr .8fr .8fr .8fr 2.1fr 1fr;align-items:center;gap:10px;padding:13px 18px;min-width:640px}
+  .mt-head,.mt-row{display:grid;grid-template-columns:1.25fr .95fr .75fr .7fr .7fr .7fr 1.9fr .85fr;align-items:center;gap:10px;padding:13px 18px;min-width:780px}
+  .mt-price{color:var(--text)}
   .mt-head{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--line)}
   .mt-head>div{text-align:right}.mt-head .mt-h-name{text-align:left}.mt-head .mt-h-range{text-align:center}
   .mt-row{border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
@@ -350,10 +351,11 @@
     </div>
   </div>
 
-  <div class="sechead" id="metals"><h2>Металите с един поглед</h2><p>Представяне на четирите благородни метала — 1 месец, 3 месеца и 1 година, плюс позиция в 52-седмичния диапазон и отстояние от върха. На живо от платформата.</p></div>
+  <div class="sechead" id="metals"><h2>Металите с един поглед</h2><p>Цена и дневна промяна, представяне за 1 месец, 3 месеца и 1 година, плюс позиция в 52-седмичния диапазон и отстояние от върха. На живо от платформата.</p></div>
   <div class="mtable">
     <div class="mt-head">
       <div class="mt-h-name">Метал</div>
+      <div>Цена</div><div>1 ден</div>
       <div>1М</div><div>3М</div><div>1Г</div>
       <div class="mt-h-range">52-седмичен диапазон</div>
       <div>От върха</div>
@@ -650,6 +652,11 @@
       var cls=v>0?'mt-up':(v<0?'mt-down':'mt-mut');
       return '<div class="mt-val '+cls+'">'+(v>0?'+':'')+v.toFixed(1)+'%</div>';
     }
+    function priceCell(p){
+      if(typeof p!=='number') return '<div class="mt-val mt-mut">—</div>';
+      var s=(p>=100)?Math.round(p).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' '):p.toFixed(1);
+      return '<div class="mt-val mt-price">$'+s+'</div>';
+    }
     function render(d){
       DATA=d;
       var metals=(d&&d.metals)||[];
@@ -662,7 +669,7 @@
         var fh=(typeof m.from_high==='number')?m.from_high:null;
         html+='<div class="mt-row" data-key="'+m.key+'">'
           +'<div class="mt-name"><b>'+m.name+'</b><span class="mt-hint">детайли ›</span></div>'
-          +cell(m.r1m)+cell(m.r3m)+cell(m.r1y)
+          +priceCell(m.price)+cell(m.r1d)+cell(m.r1m)+cell(m.r3m)+cell(m.r1y)
           +'<div class="mt-range-cell"><div class="mt-track"><div class="mt-dot" style="left:'+pos+'%"></div></div>'
             +'<div class="mt-ends"><span>52с. дъно</span><span>52с. връх</span></div></div>'
           +(fh===null?'<div class="mt-fromhi mt-mut">—</div>':'<div class="mt-fromhi '+(fh<-0.1?'mt-down':'mt-mut')+'">'+fh.toFixed(1)+'%</div>')
